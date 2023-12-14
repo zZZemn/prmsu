@@ -140,4 +140,122 @@ $(document).ready(function () {
       },
     });
   });
+
+  //   Faculty
+  //   Delete Faculty
+  $(".btnDeleteFaculty").click(function (e) {
+    e.preventDefault();
+    var facultyId = $(this).data("id");
+    $("#deleteFacultyId").val(facultyId);
+    $("#deleteFacultyModal").modal("show");
+  });
+
+  $("#btnCloseDeleteFacultyModal").click(function (e) {
+    e.preventDefault();
+    closeModal("deleteFacultyModal");
+  });
+
+  $("#frmDeleteFaculty").submit(function (e) {
+    e.preventDefault();
+    var facultyId = $("#deleteFacultyId").val();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "DeleteFaculty",
+        facultyId: facultyId,
+      },
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "Folder Deleted!");
+          closeModal("deleteFacultyModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  //   Edit Faculty
+  $(".btnEditFaculty").click(function (e) {
+    e.preventDefault();
+    $("#renameFacultyName").val($(this).data("name"));
+    $("#renameFacultyId").val($(this).data("id"));
+    $("#RenameFacultyModal").modal("show");
+  });
+
+  $("#btnCloseRenameFacultyModal").click(function (e) {
+    e.preventDefault();
+    closeModal("RenameFacultyModal");
+  });
+
+  $("#frmRenameFaculty").submit(function (e) {
+    e.preventDefault();
+    var facultyName = $("#renameFacultyName").val();
+    var facultyId = $("#renameFacultyId").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "RenameFaculty",
+        facultyId: facultyId,
+        facultyName: facultyName,
+      },
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "Folder Updated!");
+          closeModal("RenameFacultyModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  $("#btnAddFacultyFolder").click(function (e) {
+    e.preventDefault();
+    $("#SectionToBeAdd").val($(this).data("id"));
+    $("#addFacultyModal").modal("show");
+  });
+
+  $("#btnCloseAddFacultyModal").click(function (e) {
+    e.preventDefault();
+    closeModal("addFacultyModal");
+  });
+
+  $("#frmAddNewFaculty").submit(function (e) {
+    e.preventDefault();
+    var facultyName = $("#AddFacultyName").val();
+    var sectionId = $("#SectionToBeAdd").val();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "AddNewFaculty",
+        facultyName: facultyName,
+        sectionId: sectionId,
+      },
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "Folder Added!");
+          closeModal("addFacultyModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
 });

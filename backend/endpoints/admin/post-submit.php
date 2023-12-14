@@ -14,5 +14,16 @@ if (isset($_POST['submitType'])) {
         $sectionId = $_POST['sectionId'];
         $sectionName = $_POST['sectionName'];
         echo $admin_db->renameSection($sectionId, $sectionName);
+    } elseif ($submitType == 'AddNewFaculty') {
+        $facultyName = $_POST['facultyName'];
+        $sectionId = $_POST['sectionId'];
+        echo $admin_db->addNewFaculty($facultyName, $sectionId);
+    } elseif ($submitType == 'RenameFaculty') {
+        $facultyId = $_POST['facultyId'];
+        $facultyName = $_POST['facultyName'];
+        echo $admin_db->renameFaculty($facultyId, $facultyName);
+    } elseif ($submitType == 'DeleteFaculty') {
+        $facultyId = $_POST['facultyId'];
+        echo $admin_db->deleteFaculty($facultyId);
     }
 }

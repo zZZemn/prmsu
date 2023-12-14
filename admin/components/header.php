@@ -1,7 +1,15 @@
 <?php
+ob_start();
+
 function backToIndex()
 {
     header('Location: ../../index.php');
+    exit;
+}
+
+function backToAdminMain()
+{
+    header('Location: admin.php');
     exit;
 }
 
@@ -62,7 +70,7 @@ if ($getUser->num_rows > 0) {
             while ($section = $getSections->fetch_assoc()) {
             ?>
                 <li class="side-nav-li">
-                    <a href="admin.php?section=<?= $section['ID'] ?>"><?= $section['SECTION_NAME'] ?></a>
+                    <a href="admin.php?section=<?= $section['ID'] ?>" class="<?= (isset($_GET['section']) && $_GET['section'] == $section['ID']) ? 'side-nav-active' : '' ?>"><?= $section['SECTION_NAME'] ?></a>
                     <button class="btn btn-toggle-section-menu">
                         <i class="bi bi-gear-fill"></i>
                     </button>
