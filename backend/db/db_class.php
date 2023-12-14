@@ -93,6 +93,15 @@ class admin_class extends db_connect
     }
 
     // Faculty ---------------------------------
+    public function getFaculty($facultyId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `faculty_folder` WHERE `ID` = '$facultyId' AND `STATUS` = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
     public function getFacultyUsingSectionId($sectionId)
     {
         $query = $this->conn->prepare("SELECT * FROM `faculty_folder` WHERE `SECTION_ID` = '$sectionId' AND `STATUS` = 'active'");
@@ -107,7 +116,7 @@ class admin_class extends db_connect
         $dateTime = $this->dateTime();
         do {
             $facultyId = 'FAC_' . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-            $checkFacultyId = $this->getFacultyUsingSectionId($facultyId);
+            $checkFacultyId = $this->getFaculty($facultyId);
         } while ($checkFacultyId->num_rows > 0);
 
         $query = $this->conn->prepare("INSERT INTO `faculty_folder`(`ID`, `SECTION_ID`, `FACULTY_NAME`, `DATETIME`, `STATUS`) VALUES ('$facultyId','$sectionId','$facultyName','$dateTime','active')");
@@ -127,6 +136,56 @@ class admin_class extends db_connect
     public function renameFaculty($facultyId, $facultyName)
     {
         $query = $this->conn->prepare("UPDATE `faculty_folder` SET `FACULTY_NAME`='$facultyName' WHERE `ID` = '$facultyId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    // Files Folder ----------------------------------
+
+    public function getFilesFolderUsingFacultyId($facultyId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `files_folder` WHERE `FACULTY_ID` = '$facultyId' AND `STATUS` = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function getFileFolder($folderId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `files_folder` WHERE `ID` = '$folderId' AND `STATUS` = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function addFileFolder($folderName, $facultyId)
+    {
+        $dateTime = $this->dateTime();
+        do {
+            $folderId = 'FF_' . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $checkFolderId = $this->getFileFolder($folderId);
+        } while ($checkFolderId->num_rows > 0);
+
+        $query = $this->conn->prepare("INSERT INTO `files_folder`(`ID`, `FACULTY_ID`, `FOLDER_NAME`, `DATETIME`, `STATUS`) VALUES ('$folderId','$facultyId','$folderName','$dateTime','active')");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    public function renameFileFolder($folderId, $folderName)
+    {
+        $query = $this->conn->prepare("UPDATE `files_folder` SET `FOLDER_NAME`='$folderName' WHERE `ID` = '$folderId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    public function deleteFileFolder($folderId)
+    {
+        $query = $this->conn->prepare("UPDATE `files_folder` SET `STATUS`='deleted' WHERE `ID` = '$folderId'");
         if ($query->execute()) {
             return 200;
         }

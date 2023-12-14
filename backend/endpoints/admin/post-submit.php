@@ -25,5 +25,16 @@ if (isset($_POST['submitType'])) {
     } elseif ($submitType == 'DeleteFaculty') {
         $facultyId = $_POST['facultyId'];
         echo $admin_db->deleteFaculty($facultyId);
+    } elseif ($submitType == 'AddNewFileFolder') {
+        $folderName = $_POST['folderName'];
+        $facultyId = $_POST['facultyId'];
+        echo $admin_db->addFileFolder($folderName, $facultyId);
+    } elseif ($submitType == 'RenameFileFolder') {
+        $folderId = $_POST['folderId'];
+        $folderName = $_POST['folderName'];
+        echo $admin_db->renameFileFolder($folderId, $folderName);
+    } elseif ($submitType == 'DeleteFileFolder') {
+        $folderId = $_POST['folderId'];
+        echo $admin_db->deleteFileFolder($folderId);
     }
 }

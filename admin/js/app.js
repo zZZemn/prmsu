@@ -258,4 +258,121 @@ $(document).ready(function () {
       },
     });
   });
+
+  //File Folder
+  //   Add New File Folder
+  $("#btnAddFileFolder").click(function (e) {
+    e.preventDefault();
+    $("#FacultyToBeAdd").val($(this).data("id"));
+    $("#addFileModal").modal("show");
+  });
+
+  $("#btnCloseAddFileFolderModal").click(function (e) {
+    e.preventDefault();
+    closeModal("addFileModal");
+  });
+
+  $("#frmAddNewFileFolder").submit(function (e) {
+    e.preventDefault();
+    var folderName = $("#AddFileFolderName").val();
+    var facultyId = $("#FacultyToBeAdd").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "AddNewFileFolder",
+        folderName: folderName,
+        facultyId: facultyId,
+      },
+      success: function (response) {
+        if (response == "200") {
+          alert("alert-success", "Folder Added!");
+          closeModal("addFileModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  //   Rename File Folder
+  $(".btnEditFileFolder").click(function (e) {
+    e.preventDefault();
+    $("#renameFolderId").val($(this).data("id"));
+    $("#renameFolderName").val($(this).data("name"));
+    $("#RenameFolderModal").modal("show");
+  });
+
+  $("#btnCloseRenameFolderModal").click(function (e) {
+    e.preventDefault();
+    closeModal("RenameFolderModal");
+  });
+
+  $("#frmRenameFolder").submit(function (e) {
+    e.preventDefault();
+    var folderId = $("#renameFolderId").val();
+    var folderName = $("#renameFolderName").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "RenameFileFolder",
+        folderId: folderId,
+        folderName: folderName,
+      },
+      success: function (response) {
+        if (response == "200") {
+          alert("alert-success", "Folder Updated!");
+          closeModal("RenameFolderModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  //   Delete File Folder
+  $(".btnDeleteFileFolder").click(function (e) {
+    e.preventDefault();
+    $("#deleteFileFolderId").val($(this).data("id"));
+    $("#deleteFileFolderModal").modal("show");
+  });
+
+  $("#btnCloseDeleteFileFolderModal").click(function (e) {
+    e.preventDefault();
+    closeModal("deleteFileFolderModal");
+  });
+
+  $("#frmDeleteFileFolder").submit(function (e) {
+    e.preventDefault();
+    var folderId = $("#deleteFileFolderId").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "DeleteFileFolder",
+        folderId: folderId,
+      },
+      success: function (response) {
+        if (response == "200") {
+          alert("alert-success", "Folder Deleted!");
+          closeModal("deleteFileFolderModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
 });

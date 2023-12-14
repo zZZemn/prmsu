@@ -124,12 +124,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Rename Faculty</h5>
+                <h5 class="modal-title">Rename Folder</h5>
             </div>
             <form id="frmRenameFaculty">
                 <div class="modal-body">
                     <div>
-                        <label for="renameFacultyName">Faculty Name:</label>
+                        <label for="renameFacultyName">Folder Name:</label>
                         <input type="text" id="renameFacultyName" class="form-control mt-1" required>
                     </div>
                     <input type="hidden" id="renameFacultyId" value="">
@@ -144,6 +144,79 @@
 </div>
 <!-- End of Rename Faculty Modal -->
 
+<!----------------------------------------------------------------------------->
+
+<!-- Add New FileFolder Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="addFileModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Folder</h5>
+            </div>
+            <form id="frmAddNewFileFolder">
+                <div class="modal-body">
+                    <div>
+                        <label for="AddFileFolderName">Folder Name:</label>
+                        <input type="text" id="AddFileFolderName" class="form-control mt-1" required>
+                        <input type="hidden" id="FacultyToBeAdd" class="form-control mt-1" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="reset" class="btn btn-secondary" id="btnCloseAddFileFolderModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Add New FileFolder Modal -->
+
+<!-- Rename Folder Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="RenameFolderModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Rename Folder</h5>
+            </div>
+            <form id="frmRenameFolder">
+                <div class="modal-body">
+                    <div>
+                        <label for="renameFolderName">Folder Name:</label>
+                        <input type="text" id="renameFolderName" class="form-control mt-1" required>
+                    </div>
+                    <input type="hidden" id="renameFolderId" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="reset" class="btn btn-secondary" id="btnCloseRenameFolderModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Rename Folder Modal -->
+
+<!-- Delete FileFolder Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="deleteFileFolderModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Folder</h5>
+            </div>
+            <form id="frmDeleteFileFolder">
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this folder?</p>
+                    <input type="hidden" id="deleteFileFolderId" required value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="reset" class="btn btn-secondary" id="btnCloseDeleteFileFolderModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Delete FileFolder Modal -->
 
 
 <footer class="footer bg-dark p-3">
