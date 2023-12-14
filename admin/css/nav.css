@@ -68,6 +68,33 @@
   margin-right: 5px;
 }
 
+/* section menus */
+.btn-toggle-section-menu {
+  position: absolute;
+  right: 0;
+  margin-top: 2px;
+}
+
+.btn-toggle-section-menu:hover {
+  color: black;
+}
+
+.section-menu-container {
+    position: absolute;
+    background-color: white;
+    right: -70px;
+    top: 10px;
+    box-shadow: 1px 1px 2px rgb(172, 172, 172);
+    display: none;
+    z-index: 20;
+}
+
+.section-menu-container li button {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  font-size: 14px;
+}
+
 /*  */
 
 .admin-tools-label {
@@ -84,4 +111,20 @@
   font-weight: 600;
   font-size: 15px;
   padding-right: 10px;
+}
+
+/* footer */
+.footer center a {
+  text-decoration: none;
+  color: white;
+}
+
+/* alert */
+.alert {
+  position: absolute;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+  pointer-events: none;
+  opacity: 0;
 }

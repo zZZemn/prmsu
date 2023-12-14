@@ -35,11 +35,14 @@ if ($getUser->num_rows > 0) {
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
 
     <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
 </head>
 
 <body>
+    <div class="alert"></div>
+
     <nav class="top-nav bg-dark d-flex align-items-center justify-content-between">
         <h4 class="top-nav-title">PRMSU COE-DMS</h4>
         <h5 class="text-light txt-welcome-admin">Welcome Admin!</h5>
@@ -59,13 +62,24 @@ if ($getUser->num_rows > 0) {
             while ($section = $getSections->fetch_assoc()) {
             ?>
                 <li class="side-nav-li">
-                    <a href="#"><?= $section['SECTION_NAME'] ?></a>
+                    <a href="admin.php?section=<?= $section['ID'] ?>"><?= $section['SECTION_NAME'] ?></a>
+                    <button class="btn btn-toggle-section-menu">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
+                    <ul class="list-group section-menu-container">
+                        <li>
+                            <button class="btnRename" data-id="<?= $section['ID'] ?>" data-name="<?= $section['SECTION_NAME'] ?>">Rename</button>
+                        </li>
+                        <li>
+                            <button class="btnDelete" data-id="<?= $section['ID'] ?>">Delete</button>
+                        </li>
+                    </ul>
                 </li>
             <?php
             }
             ?>
             <li class="side-nav-li">
-                <button class="btn-create-new-section">
+                <button class="btn-create-new-section" id="btnCreateNewSection">
                     <i class="bi bi-plus"></i> Create New Section
                 </button>
             </li>
