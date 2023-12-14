@@ -17,4 +17,31 @@ class global_class extends db_connect
             return $result;
         }
     }
+
+    public function getUser($id)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `users` WHERE `ID` = '$id'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+}
+
+
+class admin_class extends db_connect
+{
+    public function __construct()
+    {
+        $this->connect();
+    }
+
+    public function getSections()
+    {
+        $query = $this->conn->prepare("SELECT * FROM `section` WHERE `STATUS` = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
 }
