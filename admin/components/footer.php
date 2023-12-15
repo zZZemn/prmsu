@@ -147,7 +147,7 @@
 <!----------------------------------------------------------------------------->
 
 <!-- Add New FileFolder Modal -->
-<div class="modal" tabindex="-1" role="dialog" id="addFileModal">
+<div class="modal" tabindex="-1" role="dialog" id="addFileFolderModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -217,6 +217,65 @@
     </div>
 </div>
 <!-- End of Delete FileFolder Modal -->
+
+
+<!-- ------------------------------------------------------------ -->
+
+<!-- Add New File Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="addFileModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New File</h5>
+            </div>
+            <form id="frmAddNewFile">
+                <div class="modal-body">
+                    <div>
+                        <label for="file">File:</label>
+                        <input type="file" id="file" name="file" class="form-control mt-1" required>
+                        <input type="hidden" id="FolderToBeAdd" name="folderId" class="form-control mt-1" required>
+                    </div>
+                    <div>
+                        <label for="notes">Notes:</label>
+                        <input type="text" id="notes" name="notes" class="form-control mt-1" required>
+                    </div>
+                    <div>
+                        <label for="tags">Tags:</label>
+                        <input type="text" id="tags" name="tags" class="form-control mt-1" required>
+                    </div>
+                </div>
+                <input type="hidden" name="submitType" value="AddNewFile">
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="reset" class="btn btn-secondary" id="btnCloseAddFileModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Add New File Modal -->
+
+<!-- Delete File Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="deleteFileModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete File</h5>
+            </div>
+            <form id="frmDeleteFile">
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this file?</p>
+                    <input type="hidden" id="deleteFileId" required value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="reset" class="btn btn-secondary" id="btnCloseDeleteFileModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Delete File Modal -->
 
 
 <footer class="footer bg-dark p-3">

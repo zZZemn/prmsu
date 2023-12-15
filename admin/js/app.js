@@ -264,12 +264,12 @@ $(document).ready(function () {
   $("#btnAddFileFolder").click(function (e) {
     e.preventDefault();
     $("#FacultyToBeAdd").val($(this).data("id"));
-    $("#addFileModal").modal("show");
+    $("#addFileFolderModal").modal("show");
   });
 
   $("#btnCloseAddFileFolderModal").click(function (e) {
     e.preventDefault();
-    closeModal("addFileModal");
+    closeModal("addFileFolderModal");
   });
 
   $("#frmAddNewFileFolder").submit(function (e) {
@@ -288,7 +288,7 @@ $(document).ready(function () {
       success: function (response) {
         if (response == "200") {
           alert("alert-success", "Folder Added!");
-          closeModal("addFileModal");
+          closeModal("addFileFolderModal");
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -366,6 +366,86 @@ $(document).ready(function () {
         if (response == "200") {
           alert("alert-success", "Folder Deleted!");
           closeModal("deleteFileFolderModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  // File
+
+  // New File
+  $("#btnAddFile").click(function (e) {
+    e.preventDefault();
+    $("#FolderToBeAdd").val($(this).data("id"));
+    $("#addFileModal").modal("show");
+  });
+
+  $("#btnCloseAddFileModal").click(function (e) {
+    e.preventDefault();
+    closeModal("addFileModal");
+  });
+
+  $("#frmAddNewFile").submit(function (e) {
+    e.preventDefault();
+    // var notes = $("#notes").val();
+    // var tags = $("#tags").val();
+    // var folderId = $("#FolderToBeAdd").val();
+
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "File Added!");
+          closeModal("addFileModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  // Delete File
+  $(".btnDeleteFile").click(function (e) {
+    e.preventDefault();
+    $("#deleteFileId").val($(this).data("id"));
+    $("#deleteFileModal").modal("show");
+  });
+
+  $("#btnCloseDeleteFileModal").click(function (e) {
+    e.preventDefault();
+    closeModal("deleteFileModal");
+  });
+
+  $("#frmDeleteFile").submit(function (e) {
+    e.preventDefault();
+    var fileId = $("#deleteFileId").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "DeleteFile",
+        fileId: fileId,
+      },
+      success: function (response) {
+        if (response == "200") {
+          alert("alert-success", "File Deleted!");
+          closeModal("deleteFileModal");
           setTimeout(() => {
             window.location.reload();
           }, 2000);

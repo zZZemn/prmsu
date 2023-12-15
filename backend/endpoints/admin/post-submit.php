@@ -36,5 +36,12 @@ if (isset($_POST['submitType'])) {
     } elseif ($submitType == 'DeleteFileFolder') {
         $folderId = $_POST['folderId'];
         echo $admin_db->deleteFileFolder($folderId);
+    } elseif ($submitType == 'AddNewFile') {
+        $notes = $_POST['notes'];
+        $tags = $_POST['tags'];
+        echo $admin_db->addNewFile($_POST, $_FILES['file']);
+    } elseif ($submitType == 'DeleteFile') {
+        $fileId = $_POST['fileId'];
+        echo $admin_db->deleteFile($fileId);
     }
 }
