@@ -65,7 +65,7 @@ include('../components/header.php');
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btnEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>"><i class="bi bi-pencil"></i></button>
+                                                    <button class="btn btnEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
                                                     <button class="btn btnDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
                                                     <button class="btn btnDownloadFile"><i class="bi bi-box-arrow-down"></i></button>
                                                 </td>

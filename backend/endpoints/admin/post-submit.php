@@ -40,6 +40,12 @@ if (isset($_POST['submitType'])) {
         $notes = $_POST['notes'];
         $tags = $_POST['tags'];
         echo $admin_db->addNewFile($_POST, $_FILES['file']);
+    } elseif ($submitType == 'EditFile') {
+        $fileId = $_POST['fileId'];
+        $notes = $_POST['notes'];
+        $tags = $_POST['tags'];
+        $fileName = $_POST['fileName'];
+        echo $admin_db->editFile($fileId, $fileName, $tags, $notes);
     } elseif ($submitType == 'DeleteFile') {
         $fileId = $_POST['fileId'];
         echo $admin_db->deleteFile($fileId);

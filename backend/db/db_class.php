@@ -212,14 +212,6 @@ class admin_class extends db_connect
         }
     }
 
-    public function deleteFile($fileId)
-    {
-        $query = $this->conn->prepare("UPDATE `files` SET `STATUS`='deleted' WHERE `ID` = '$fileId'");
-        if ($query->execute()) {
-            return 200;
-        }
-    }
-
     public function getFile($fileId)
     {
         $query = $this->conn->prepare("SELECT * FROM `files` WHERE `ID` = '$fileId' AND `STATUS` = 'active'");
@@ -278,6 +270,22 @@ class admin_class extends db_connect
             }
         } else {
             return 'File is empty';
+        }
+    }
+
+    public function editFile($fileId, $fileName, $tags, $notes)
+    {
+        $query = $this->conn->prepare("UPDATE `files` SET `DISPLAY_FILE_NAME`='$fileName',`NOTES`='$notes',`TAGS`='$tags' WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    public function deleteFile($fileId)
+    {
+        $query = $this->conn->prepare("UPDATE `files` SET `STATUS`='deleted' WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            return 200;
         }
     }
 }

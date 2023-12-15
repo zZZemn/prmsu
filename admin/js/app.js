@@ -392,9 +392,6 @@ $(document).ready(function () {
 
   $("#frmAddNewFile").submit(function (e) {
     e.preventDefault();
-    // var notes = $("#notes").val();
-    // var tags = $("#tags").val();
-    // var folderId = $("#FolderToBeAdd").val();
 
     var formData = new FormData($(this)[0]);
 
@@ -409,6 +406,53 @@ $(document).ready(function () {
         if (response == "200") {
           alert("alert-success", "File Added!");
           closeModal("addFileModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  // Edit File
+  $(".btnEditFile").click(function (e) {
+    e.preventDefault();
+    $("#editFileName").val($(this).data("name"));
+    $("#editNotes").val($(this).data("notes"));
+    $("#editTags").val($(this).data("tags"));
+    $("#EditFileId").val($(this).data("id"));
+    $("#editFileModal").modal("show");
+  });
+
+  $("#btnCloseEditFileModal").click(function (e) {
+    e.preventDefault();
+    closeModal("editFileModal");
+  });
+
+  $("#frmEditFile").submit(function (e) {
+    e.preventDefault();
+    var fileName = $("#editFileName").val();
+    var notes = $("#editNotes").val();
+    var tags = $("#editTags").val();
+    var fileId = $("#EditFileId").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "EditFile",
+        fileId: fileId,
+        fileName: fileName,
+        notes: notes,
+        tags: tags,
+      },
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "File Details Edited!");
+          closeModal("editFileModal");
           setTimeout(() => {
             window.location.reload();
           }, 2000);

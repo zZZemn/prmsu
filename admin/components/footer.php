@@ -255,6 +255,39 @@
 </div>
 <!-- End of Add New File Modal -->
 
+<!-- Edit File Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="editFileModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit File</h5>
+            </div>
+            <form id="frmEditFile">
+                <div class="modal-body">
+                    <div>
+                        <label for="notes">Display Filename:</label>
+                        <input type="text" id="editFileName" name="fileName" class="form-control mt-1" required>
+                    </div>
+                    <div>
+                        <label for="notes">Notes:</label>
+                        <input type="text" id="editNotes" name="notes" class="form-control mt-1" required>
+                    </div>
+                    <div>
+                        <label for="tags">Tags:</label>
+                        <input type="text" id="editTags" name="tags" class="form-control mt-1" required>
+                    </div>
+                </div>
+                <input type="hidden" name="fileId" id="EditFileId" value="">
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="reset" class="btn btn-secondary" id="btnCloseEditFileModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Edit File Modal -->
+
 <!-- Delete File Modal -->
 <div class="modal" tabindex="-1" role="dialog" id="deleteFileModal">
     <div class="modal-dialog" role="document">
