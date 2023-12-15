@@ -499,4 +499,35 @@ $(document).ready(function () {
       },
     });
   });
+
+  // Shared Files
+  $("#btnShareFile").click(function (e) {
+    e.preventDefault();
+    var shareTo = $("#sharedFileTo").val();
+    var fileId = $("#hiddenFileId").val();
+
+    if (fileId != "" && shareTo != "") {
+      $.ajax({
+        type: "POST",
+        url: "../../backend/endpoints/admin/post-submit.php",
+        data: {
+          submitType: "ShareFile",
+          userId: shareTo,
+          fileId: fileId,
+        },
+        success: function (response) {
+          if (response == "200") {
+            alert("alert-success", "File shared!");
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            alert("alert-danger", "Something Went Wrong!");
+          }
+        },
+      });
+    } else {
+      alert("alert-danger", "Something Went Wrong!");
+    }
+  });
 });

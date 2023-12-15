@@ -49,7 +49,7 @@ if ($getUser->num_rows > 0) {
 </head>
 
 <body>
-    <div class="alert"></div>
+    <div class="alert">ashdhasfdhg</div>
 
     <nav class="top-nav bg-dark d-flex align-items-center justify-content-between">
         <h4 class="top-nav-title">PRMSU COE-DMS</h4>

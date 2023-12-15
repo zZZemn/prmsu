@@ -49,5 +49,9 @@ if (isset($_POST['submitType'])) {
     } elseif ($submitType == 'DeleteFile') {
         $fileId = $_POST['fileId'];
         echo $admin_db->deleteFile($fileId);
+    } elseif ($submitType == 'ShareFile') {
+        $userId = $_POST['userId'];
+        $fileId = $_POST['fileId'];
+        echo $admin_db->shareFile($fileId, $userId);
     }
 }

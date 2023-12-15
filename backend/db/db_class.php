@@ -26,6 +26,15 @@ class global_class extends db_connect
             return $result;
         }
     }
+
+    public function getFacultyUsers()
+    {
+        $query = $this->conn->prepare("SELECT * FROM `users` WHERE `USER_TYPE` = 'faculty' AND `STATUS` = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
 }
 
 
@@ -257,7 +266,7 @@ class admin_class extends db_connect
             $destination = $destinationDirectory . $newFileName;
             if (is_uploaded_file($file_tmp)) {
                 if (move_uploaded_file($file_tmp, $destination)) {
-                    $query = $this->conn->prepare("INSERT INTO `files`(`ID`, `FOLDER_ID`, `FILE_NAME`, `DISPLAY_FILE_NAME`, `NOTES`, `TAGS`, `DATETIME`, `STATUS`) VALUES ('$fileId','$folderId','$fileName','$file_name','$notes','$tags','$dateTime','active')");
+                    $query = $this->conn->prepare("INSERT INTO `files`(`ID`, `FOLDER_ID`, `FILE_NAME`, `DISPLAY_FILE_NAME`, `NOTES`, `TAGS`, `DATETIME`, `STATUS`) VALUES ('$fileId','$folderId','$newFileName','$file_name','$notes','$tags','$dateTime','active')");
                     if ($query->execute()) {
                         return 200;
                     }
@@ -284,6 +293,33 @@ class admin_class extends db_connect
     public function deleteFile($fileId)
     {
         $query = $this->conn->prepare("UPDATE `files` SET `STATUS`='deleted' WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    // Shares Files
+    public function checkSharedFiled($facultyPersonId, $fileId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `shared_files` WHERE `USER_ID` = '$facultyPersonId' AND `FILE_ID` = '$fileId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function getSharedFilesJoinUsers($fileId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `shared_files` WHERE `FILE_ID` = '$fileId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function shareFile($fileId, $userId)
+    {
+        $query = $this->conn->prepare("INSERT INTO `shared_files`(`USER_ID`, `FILE_ID`, `STATUS`) VALUES ('$userId','$fileId','active')");
         if ($query->execute()) {
             return 200;
         }
