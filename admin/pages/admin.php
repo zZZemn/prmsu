@@ -129,10 +129,29 @@ include('../components/header.php');
                                                         <th>Action</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>123</td>
-                                                        <td>123</td>
-                                                        <td>123</td>
+                                                        <?php
+                                                        $getAuditLog = $admin_db->getAuditLog($fileId);
+                                                        if ($getAuditLog->num_rows > 0) {
+                                                            while ($audit = $getAuditLog->fetch_assoc()) {
+                                                        ?>
+                                                    <tr>
+                                                        <td><?= $audit['DATE_TIME'] ?></td>
+                                                        <td><?= $audit['USER_ID'] ?></td>
+                                                        <td><?= $audit['ACTION'] ?></td>
                                                     </tr>
+                                                <?php
+                                                            }
+                                                        } else {
+                                                ?>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <center>No Audit Yet</center>
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                                        }
+                                            ?>
+                                            </tr>
                                                 </table>
                                             </div>
                                         </div>

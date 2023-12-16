@@ -324,4 +324,15 @@ class admin_class extends db_connect
             return 200;
         }
     }
+
+
+    // Audit Log
+    public function getAuditLog($fileId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `audit_log` WHERE `FILE_ID` = '$fileId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
 }
