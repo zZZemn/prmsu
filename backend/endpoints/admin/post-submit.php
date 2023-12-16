@@ -53,5 +53,10 @@ if (isset($_POST['submitType'])) {
         $userId = $_POST['userId'];
         $fileId = $_POST['fileId'];
         echo $admin_db->shareFile($fileId, $userId);
+    } elseif ($submitType == 'sendMessage') {
+        $message = $_POST['message'];
+        $userId = $_POST['userId'];
+        $senderId = $_POST['senderId'];
+        echo $admin_db->sendMessage($senderId, $userId, $message);
     }
 }

@@ -530,4 +530,30 @@ $(document).ready(function () {
       alert("alert-danger", "Something Went Wrong!");
     }
   });
+
+  // Message
+  $("#frmSendMessage").submit(function (e) {
+    e.preventDefault();
+    var message = $("#txtSendMessage").val();
+    var userId = $("#userId").val();
+    var senderId = $("#adminId").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "sendMessage",
+        message: message,
+        userId: userId,
+        senderId: senderId,
+      },
+      success: function (response) {
+        // console.log(response);
+        $("#txtSendMessage").val("");
+        if (response != "200") {
+          alert("alert-danger", "Can't send a message right now.");
+        }
+      },
+    });
+  });
 });

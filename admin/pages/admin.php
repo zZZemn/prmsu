@@ -429,12 +429,79 @@ include('../components/header.php');
             </div>
 
             <!-- End of Section  -->
-    <?php
+        <?php
         } else {
             backToAdminMain();
         }
+    } elseif (isset($_GET['page']) && $_GET['page'] == 'inbox') {
+        ?>
+        <div class="d-flex">
+            <div class="message-sender-container card">
+                <ul class="list-group">
+                    <?php
+                    $getUsers = $db->getFacultyUsers();
+                    if ($getUsers->num_rows > 0) {
+                        while ($user = $getUsers->fetch_assoc()) {
+                    ?>
+                            <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=inbox&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['NAME'] ?></a></li>
+                        <?php
+                        }
+                    } else {
+                        ?>
+                        <li class="list-group-item">No User Found</li>
+                    <?php
+                    }
+                    ?>
+                </ul>
+            </div>
+            <div class="card p-2 message-content-container">
+                <div class="message-content-container-iside container" id="messageContainer">
+
+                </div>
+                <?php
+                if (isset($_GET['user'])) {
+                    $checkUser = $db->getUser($_GET['user']);
+                    if ($checkUser->num_rows > 0) {
+                ?>
+                        <input type="hidden" id="adminId" value="<?= $_SESSION['user_id'] ?>">
+                        <input type="hidden" id="userId" value="<?= $_GET['user'] ?>">
+                        <script>
+                            const getMessages = () => {
+                                var userId = $("#userId").val();
+                                console.log(userId);
+                                $.ajax({
+                                    type: "GET",
+                                    url: "../../backend/endpoints/admin/get-request.php",
+                                    data: {
+                                        submitType: "getMessages",
+                                        userId: userId,
+                                    },
+                                    success: function(response) {
+                                        $("#messageContainer").html(response);
+                                    },
+                                });
+                            }
+
+                            setInterval(getMessages, 100);
+                        </script>
+                        <form class="container mt-2 d-flex" id="frmSendMessage">
+                            <input type="text" id="txtSendMessage" class="form-control m-1" required>
+                            <button type="submit" class="btn btn-dark m-1">Send</button>
+                        </form>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <center class="mt-3">
+                        <h5> Please select user. </h5>
+                    </center>
+                <?php
+                }
+                ?>
+            </div>
+        <?php
     }
-    ?>
+        ?>
 </main>
 <?php
 include('../components/footer.php');

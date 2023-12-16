@@ -61,7 +61,7 @@ if ($getUser->num_rows > 0) {
         </div>
         <ul class="side-nav-ul list-group p-2">
             <li class="side-nav-li">
-                <a href="#" class="a-inbox">
+                <a href="admin.php?page=inbox" class="a-inbox <?= (isset($_GET['page']) && $_GET['page'] == 'inbox') ? 'side-nav-active' : '' ?>">
                     <i class="bi bi-chat-dots-fill"></i> Inbox
                 </a>
             </li>

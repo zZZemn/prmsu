@@ -335,4 +335,25 @@ class admin_class extends db_connect
             return $result;
         }
     }
+
+    // Message
+    public function getMessages($userId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `message` WHERE `RECEIVER_ID` = '$userId' OR `SENDER_ID` = '$userId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function sendMessage($senderId, $userId, $message)
+    {
+        $dateTime = $this->dateTime();
+        $query = $this->conn->prepare("INSERT INTO `message`(`SENDER_ID`, `RECEIVER_ID`, `MESSAGE`, `DATE_TIME`) VALUES (?, ?, ?, ?)");
+        $query->bind_param('ssss', $senderId, $userId, $message, $dateTime);
+
+        if ($query->execute()) {
+            return 200;
+        }
+    }
 }
