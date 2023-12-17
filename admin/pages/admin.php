@@ -585,6 +585,7 @@ include('../components/header.php');
                     }
                     ?>
                 </div>
+                <button class="btn btn-primary btn-add-new-user" id="btnOpenAddNewUserModal"><i class="bi bi-bookmark-plus"></i> Add New User</button>
             </div>
         <?php
     } elseif (isset($_GET['page']) && $_GET['page'] == 'RecycleBin') {

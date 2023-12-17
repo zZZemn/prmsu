@@ -310,6 +310,57 @@
 </div>
 <!-- End of Delete File Modal -->
 
+<!-- Add New User Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="addNewUserModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add User</h5>
+            </div>
+            <form id="frmAddNewUser">
+                <input type="hidden" name="submitType" value="AddNewUser">
+                <div class="modal-body">
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label for="newUserFacultyId">Section</label>
+                        <select class="form-control" id="newUserFacultyId" name="facultyId" required>
+                            <option></option>
+                            <?php
+                            $getSections = $admin_db->getSections();
+                            while ($section = $getSections->fetch_assoc()) {
+                            ?>
+                                <option value="<?= $section['ID'] ?>"><?= $section['SECTION_NAME'] ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mt-3">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="reset" class="btn btn-secondary" id="btnCloseAddNewUserModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Add New User Modal -->
+
 
 <footer class="footer bg-dark p-3">
     <center>

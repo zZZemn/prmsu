@@ -381,4 +381,34 @@ class admin_class extends db_connect
             return 200;
         }
     }
+
+    // Manage User
+    public function getUser($id)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `users` WHERE `ID` = '$id'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function createUser($post)
+    {
+        do {
+            $userId = 'FACULTY_' . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $checkUserId = $this->getUser($userId);
+        } while ($checkUserId->num_rows > 0);
+
+        $name = $post['name'];
+        $facultyId = $post['facultyId'];
+        $email = $post['email'];
+        $username = $post['username'];
+        $password = $post['password'];
+
+        $query = $this->conn->prepare("INSERT INTO `users`(`ID`, `NAME`, `EMAIL`, `USERNAME`, `PASSWORD`, `FACULTY_ID`, `USER_TYPE`, `STATUS`) 
+                                                    VALUES ('$userId','$name','$email','$username','$password','$facultyId','faculty','active')");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
 }

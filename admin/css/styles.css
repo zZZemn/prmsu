@@ -88,3 +88,9 @@
 .per-message-container span {
   font-size: 10px;
 }
+
+/* Manage User */
+.btn-add-new-user {
+  position: absolute;
+  right: 10px;
+}

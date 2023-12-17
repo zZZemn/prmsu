@@ -598,4 +598,34 @@ $(document).ready(function () {
       },
     });
   });
+
+  // Add New User
+  $("#btnOpenAddNewUserModal").click(function (e) {
+    e.preventDefault();
+    $("#addNewUserModal").modal("show");
+  });
+
+  $("#btnCloseAddNewUserModal").click(function (e) {
+    e.preventDefault();
+    closeModal("addNewUserModal");
+  });
+
+  $("#frmAddNewUser").submit(function (e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: formData,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "User Added");
+          window.location.reload();
+        } else {
+          alert("alert-danger", "Something went wrong");
+        }
+      },
+    });
+  });
 });

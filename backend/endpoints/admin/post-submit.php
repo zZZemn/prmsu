@@ -69,5 +69,7 @@ if (isset($_POST['submitType'])) {
     } elseif ($submitType == 'RestoreFile') {
         $fileId = $_POST['fileId'];
         echo $db->restoreFile($fileId);
+    } elseif ($submitType == 'AddNewUser') {
+        echo $admin_db->createUser($_POST);
     }
 }
