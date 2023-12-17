@@ -35,6 +35,31 @@ class global_class extends db_connect
             return $result;
         }
     }
+
+    public function editUser($userId, $name, $email, $username, $faculty)
+    {
+        $query = $this->conn->prepare("UPDATE `users` SET `NAME`='$name',`EMAIL`='$email',`USERNAME`='$username',`FACULTY_ID`='$faculty' WHERE `ID` = '$userId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    public function getDeletedFiles()
+    {
+        $query = $this->conn->prepare("SELECT * FROM `files` WHERE `STATUS` = 'deleted'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function restoreFile($fileId)
+    {
+        $query = $this->conn->prepare("UPDATE `files` SET `STATUS`='active' WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
 }
 
 

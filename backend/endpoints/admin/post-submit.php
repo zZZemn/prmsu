@@ -2,6 +2,7 @@
 if (isset($_POST['submitType'])) {
     include('../../db/db_class.php');
     $admin_db = new admin_class();
+    $db = new global_class();
     $submitType = $_POST['submitType'];
 
     if ($submitType == 'AddNewSection') {
@@ -58,5 +59,15 @@ if (isset($_POST['submitType'])) {
         $userId = $_POST['userId'];
         $senderId = $_POST['senderId'];
         echo $admin_db->sendMessage($senderId, $userId, $message);
+    } elseif ($submitType == 'EditUser') {
+        $name = $_POST['editName'];
+        $email = $_POST['editEmail'];
+        $username = $_POST['editUsername'];
+        $faculty = $_POST['editFacultyId'];
+        $userId = $_POST['userId'];
+        echo $db->editUser($userId, $name, $email, $username, $faculty);
+    } elseif ($submitType == 'RestoreFile') {
+        $fileId = $_POST['fileId'];
+        echo $db->restoreFile($fileId);
     }
 }

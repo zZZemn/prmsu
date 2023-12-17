@@ -500,6 +500,126 @@ include('../components/header.php');
                 ?>
             </div>
         <?php
+    } elseif (isset($_GET['page']) && $_GET['page'] == 'ManageUsers') {
+        ?>
+            <div class="d-flex">
+                <div class="message-sender-container card">
+                    <ul class="list-group">
+                        <?php
+                        $getUsers = $db->getFacultyUsers();
+                        if ($getUsers->num_rows > 0) {
+                            while ($user = $getUsers->fetch_assoc()) {
+                        ?>
+                                <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=ManageUsers&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['NAME'] ?></a></li>
+                            <?php
+                            }
+                        } else {
+                            ?>
+                            <li class="list-group-item">No User Found</li>
+                        <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <div class="edit-user-container container">
+                    <?php
+                    if (isset($_GET['user'])) {
+                        $userId = $_GET['user'];
+                        $checkUser = $db->getUser($userId);
+                        if ($checkUser->num_rows > 0) {
+                            $user = $checkUser->fetch_assoc();
+                    ?>
+                            <form id="frmEditUser">
+                                <input type="hidden" name="submitType" value="EditUser">
+                                <input type="hidden" name="userId" value="<?= $userId ?>">
+                                <div class="mt-5">
+                                    <label for="editName">Name:</label>
+                                    <input type="text" class="form-control" id="editName" name="editName" value="<?= $user['NAME'] ?>">
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="editEmail">Email:</label>
+                                    <input type="text" class="form-control" id="editEmail" name="editEmail" value="<?= $user['EMAIL'] ?>">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="editUsername">Username:</label>
+                                    <input type="text" class="form-control" id="editUsername" name="editUsername" value="<?= $user['USERNAME'] ?>">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="editFaculty">Faculty:</label>
+                                    <select class="form-control" id="editFacultyId" name="editFacultyId">
+                                        <?php
+                                        $getSections = $admin_db->getSections();
+                                        if ($getSections->num_rows > 0) {
+                                            while ($section = $getSections->fetch_assoc()) {
+                                        ?>
+                                                <option value="<?= $section['ID'] ?>" <?= ($user['FACULTY_ID'] == $section['ID']) ? 'selected' : '' ?>><?= $section['SECTION_NAME'] ?></option>
+                                            <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <option disabled selected>No option found</option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="mt-4 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-dark">Save Changes</button>
+                                </div>
+                            </form>
+                        <?php
+                        } else {
+                        ?>
+                            <center class="mt-3">
+                                <h5> Please select user. </h5>
+                            </center>
+                        <?php
+                        }
+                    } else {
+                        ?>
+                        <center class="mt-3">
+                            <h5> Please select user. </h5>
+                        </center>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        <?php
+    } elseif (isset($_GET['page']) && $_GET['page'] == 'RecycleBin') {
+        ?>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Restore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $getDeletedFiles = $db->getDeletedFiles();
+                        if ($getDeletedFiles->num_rows > 0) {
+                            while ($deletedFile = $getDeletedFiles->fetch_assoc()) {
+                                $dateTimeString = $deletedFile['DATETIME'];
+                                $dateTime = new DateTime($dateTimeString);
+                                $formattedDateTime = $dateTime->format('F j, Y g:i a');
+                        ?>
+                                <tr>
+                                    <td><?= $deletedFile['DISPLAY_FILE_NAME'] ?></td>
+                                    <td><?= $formattedDateTime ?></td>
+                                    <td><button class="btn btn-dark btnRestoreFile" data-id="<?= $deletedFile['ID'] ?>"><i class="bi bi-arrow-clockwise"></i> Restore</button></td>
+                                </tr>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php
     }
         ?>
 </main>

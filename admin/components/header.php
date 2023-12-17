@@ -97,10 +97,10 @@ if ($getUser->num_rows > 0) {
                 <p>Admin Tools</p>
             </div>
             <li class="side-nav-li">
-                <a href="#">Manage Users</a>
+                <a href="admin.php?page=ManageUsers" class="<?= (isset($_GET['page']) && $_GET['page'] == 'ManageUsers') ? 'side-nav-active' : '' ?>">Manage Users</a>
             </li>
             <li class="side-nav-li">
-                <a href="#">Recycle Bin</a>
+                <a href="admin.php?page=RecycleBin" class="<?= (isset($_GET['page']) && $_GET['page'] == 'RecycleBin') ? 'side-nav-active' : '' ?>">Recycle Bin</a>
             </li>
             <li class="side-nav-li">
                 <a href="../../logout.php">Log Out</a>

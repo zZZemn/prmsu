@@ -556,4 +556,46 @@ $(document).ready(function () {
       },
     });
   });
+
+  // Edit User
+  $("#frmEditUser").submit(function (e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: formData,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "User Edited!");
+        } else {
+          alert("alert-danger", "Something went wrong");
+        }
+      },
+    });
+  });
+
+  // Restore File
+  $(".btnRestoreFile").click(function (e) {
+    e.preventDefault();
+    var fileId = $(this).data("id");
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "RestoreFile",
+        fileId: fileId,
+      },
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "File Restored!");
+          window.location.reload();
+        } else {
+          alert("alert-danger", "Something went wrong");
+        }
+      },
+    });
+  });
 });
