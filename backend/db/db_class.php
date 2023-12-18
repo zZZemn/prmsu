@@ -335,7 +335,7 @@ class admin_class extends db_connect
 
     public function getSharedFilesJoinUsers($fileId)
     {
-        $query = $this->conn->prepare("SELECT * FROM `shared_files` WHERE `FILE_ID` = '$fileId'");
+        $query = $this->conn->prepare("SELECT u.* FROM `shared_files` as sf JOIN users as u ON sf.USER_ID = u.ID WHERE sf.FILE_ID = '$fileId'");
         if ($query->execute()) {
             $result = $query->get_result();
             return $result;

@@ -86,7 +86,7 @@ include('../components/header.php');
                                                     if ($getSharedFiles->num_rows > 0) {
                                                         while ($sharedFile = $getSharedFiles->fetch_assoc()) {
                                                     ?>
-                                                            <li class="list-group-item"><?= $sharedFile['USER_ID'] ?></li>
+                                                            <li class="list-group-item"><?= $sharedFile['NAME'] ?></li>
                                                         <?php
                                                         }
                                                     } else {
