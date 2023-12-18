@@ -350,6 +350,15 @@ class admin_class extends db_connect
         }
     }
 
+    public function getSharedFiles($userId)
+    {
+        $query = $this->conn->prepare("SELECT f.* FROM `shared_files` as sf JOIN `files` as f ON sf.FILE_ID = f.ID WHERE sf.USER_ID = '$userId' AND sf.STATUS = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
 
     // Audit Log
     public function getAuditLog($fileId)
