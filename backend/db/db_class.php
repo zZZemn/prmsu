@@ -382,6 +382,18 @@ class admin_class extends db_connect
         }
     }
 
+    public function facultySendMessage($userId, $message)
+    {
+        $dateTime = $this->dateTime();
+        $adminId = 'ADMIN_1';
+        $query = $this->conn->prepare("INSERT INTO `message`(`SENDER_ID`, `RECEIVER_ID`, `MESSAGE`, `DATE_TIME`) VALUES (?, ?, ?, ?)");
+        $query->bind_param('ssss', $userId, $adminId, $message, $dateTime);
+
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
     // Manage User
     public function getUser($id)
     {

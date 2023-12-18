@@ -72,4 +72,12 @@ if (isset($_POST['submitType'])) {
     } elseif ($submitType == 'AddNewUser') {
         echo $admin_db->createUser($_POST);
     }
+
+    // Faculty 
+
+    elseif ($submitType == 'FacultySendMessage') {
+        $userId = $_POST['userId'];
+        $message = $_POST['message'];
+        echo $admin_db->facultySendMessage($userId, $message);
+    }
 }
