@@ -150,7 +150,7 @@ class global_class extends db_connect
 
     public function getFilesUsingFolderId($folderId)
     {
-        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `FOLDER_ID` = '$folderId'");
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `FOLDER_ID` = '$folderId' AND `STATUS` = 'active'");
         if ($query->execute()) {
             $result = $query->get_result();
             return $result;
@@ -216,6 +216,14 @@ class global_class extends db_connect
             }
         } else {
             return 'File is empty';
+        }
+    }
+
+    public function facultyDeleteFile($fileId)
+    {
+        $query = $this->conn->prepare("UPDATE `user_faculty_files` SET `STATUS`='deleted' WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            return 200;
         }
     }
 }

@@ -103,5 +103,8 @@ if (isset($_POST['submitType'])) {
         echo $db->facultyEditFolder($folderId, $name);
     } elseif ($submitType == 'FacultyAddNewFile') {
         echo $db->facultyAddNewFile($_POST, $_FILES['file']);
+    } elseif ($submitType == 'FacultyDeleteFile') {
+        $fileId = $_POST['fileId'];
+        echo $db->facultyDeleteFile($fileId);
     }
 }

@@ -252,10 +252,45 @@ $(document).ready(function () {
       contentType: false,
       processData: false,
       success: function (response) {
-        console.log(response);
+        closeModal("addFileModal");
         if (response == "200") {
           alert("alert-success", "File Added!");
-          closeModal("addFileModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
+
+  $(".btnFacultyDeleteFile").click(function (e) {
+    e.preventDefault();
+    $("#deleteFileId").val($(this).data("id"));
+    $("#deleteFileModal").modal("show");
+  });
+
+  $("#btnCloseDeleteFileModal").click(function (e) {
+    e.preventDefault();
+    closeModal("deleteFileModal");
+  });
+
+  $("#frmDeleteFile").submit(function (e) {
+    e.preventDefault();
+    var fileId = $("#deleteFileId").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "FacultyDeleteFile",
+        fileId: fileId,
+      },
+      success: function (response) {
+        closeModal("addFileModal");
+        if (response == "200") {
+          alert("alert-success", "File Deleted!");
           setTimeout(() => {
             window.location.reload();
           }, 2000);
