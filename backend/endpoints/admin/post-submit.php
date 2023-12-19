@@ -101,5 +101,7 @@ if (isset($_POST['submitType'])) {
         $folderId = $_POST['folderId'];
         $name = $_POST['name'];
         echo $db->facultyEditFolder($folderId, $name);
+    } elseif ($submitType == 'FacultyAddNewFile') {
+        echo $db->facultyAddNewFile($_POST, $_FILES['file']);
     }
 }

@@ -244,7 +244,7 @@
                         <input type="text" id="tags" name="tags" class="form-control mt-1" required>
                     </div>
                 </div>
-                <input type="hidden" name="submitType" value="AddNewFile">
+                <input type="hidden" name="submitType" value="FacultyAddNewFile">
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Save</button>
                     <button type="reset" class="btn btn-secondary" id="btnCloseAddFileModal" data-dismiss="modal">Close</button>

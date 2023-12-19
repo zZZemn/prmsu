@@ -9,7 +9,7 @@ function backToIndex()
 
 function backToAdminMain()
 {
-    header('Location: admin.php');
+    header('Location: faculty.php');
     exit;
 }
 

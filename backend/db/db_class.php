@@ -9,6 +9,16 @@ class global_class extends db_connect
         $this->connect();
     }
 
+    public function generateRandomString($length)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $randomString;
+    }
+
     public function dateTime()
     {
         $timezone = new DateTimeZone('Asia/Manila');
@@ -104,6 +114,15 @@ class global_class extends db_connect
         }
     }
 
+    public function getFacultyFolderUsingFolderId($folderId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_folder` WHERE `ID` = '$folderId' AND `STATUS` = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
     public function facultyAddNewFolder($userId, $folderName)
     {
         $dateTime = $this->dateTime();
@@ -126,6 +145,77 @@ class global_class extends db_connect
         $query = $this->conn->prepare("UPDATE `user_faculty_folder` SET `FOLDER_NAME`='$name' WHERE `ID` = '$folderId'");
         if ($query->execute()) {
             return 200;
+        }
+    }
+
+    public function getFilesUsingFolderId($folderId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `FOLDER_ID` = '$folderId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function getFilesUsingFileId($fileId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function getFilesUsingFileName($fileName)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `FILE_NAME` = '$fileName'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function facultyAddNewFile($post, $file)
+    {
+        $folderId = $post['folderId'];
+        $notes = $post['notes'];
+        $tags = $post['tags'];
+
+        $dateTime = $this->dateTime();
+
+        do {
+            $fileId = 'FILE_' . str_pad(random_int(0, 9999999999), 10, '0', STR_PAD_LEFT);
+            $checkFileId = $this->getFilesUsingFileId($fileId);
+        } while ($checkFileId->num_rows > 0);
+
+        do {
+            $fileName = 'prmsu_' . $this->generateRandomString(12);
+            $checkFileName = $this->getFilesUsingFileName($fileName);
+        } while ($checkFileName->num_rows > 0);
+
+        if (!empty($_FILES['file']['size'])) {
+            $file_name = $file['name'];
+            $file_tmp = $file['tmp_name'];
+            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+            $destinationDirectory = __DIR__ . '/../filesFolder/';
+            $newFileName = $fileName . '.' . $extension;
+            $destination = $destinationDirectory . $newFileName;
+            if (is_uploaded_file($file_tmp)) {
+                if (move_uploaded_file($file_tmp, $destination)) {
+                    $query = $this->conn->prepare("INSERT INTO `user_faculty_files`(`ID`, `FOLDER_ID`, `FILE_NAME`, `DISPLAY_FILE_NAME`, `NOTES`, `TAGS`, `DATETIME`, `STATUS`) 
+                                                                            VALUES ('$fileId','$folderId','$newFileName','$file_name','$notes','$tags','$dateTime','active')");
+                    if ($query->execute()) {
+                        return 200;
+                    }
+                } else {
+                    // return 'Uploading file unsuccessfull';
+                    return $destination;
+                }
+            } else {
+                return "Error: File upload failed or file not found.";
+            }
+        } else {
+            return 'File is empty';
         }
     }
 }

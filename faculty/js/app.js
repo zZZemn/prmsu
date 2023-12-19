@@ -228,4 +228,41 @@ $(document).ready(function () {
       },
     });
   });
+
+  // File
+  $("#btnAddFile").click(function (e) {
+    e.preventDefault();
+    $("#FolderToBeAdd").val($("#currentFolderId").val());
+    $("#addFileModal").modal("show");
+  });
+
+  $("#btnCloseAddFileModal").click(function (e) {
+    e.preventDefault();
+    closeModal("addFileModal");
+  });
+
+  $("#frmAddNewFile").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "File Added!");
+          closeModal("addFileModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
 });
