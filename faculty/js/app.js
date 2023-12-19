@@ -344,4 +344,26 @@ $(document).ready(function () {
       },
     });
   });
+
+  $(".btnRestoreFile").click(function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "FacultyRestoreFile",
+        id: id,
+      },
+      success: function (response) {
+        if (response == "200") {
+          alert("alert-success", "File Restored!");
+          reload();
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
 });

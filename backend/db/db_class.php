@@ -159,7 +159,7 @@ class global_class extends db_connect
 
     public function getFilesUsingFileId($fileId)
     {
-        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `ID` = '$fileId'");
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `ID` = '$fileId' AND `STATUS` = 'active'");
         if ($query->execute()) {
             $result = $query->get_result();
             return $result;
@@ -235,6 +235,23 @@ class global_class extends db_connect
         $tags = $post['tags'];
         $fileId = $post['fileId'];
         $query = $this->conn->prepare("UPDATE `user_faculty_files` SET `DISPLAY_FILE_NAME`='$fileName',`NOTES`='$notes',`TAGS`='$tags',`DATETIME`='$dateTime' WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    public function facultyGetDeletedFiles()
+    {
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `STATUS` = 'deleted'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function facultyRestoreFile($id)
+    {
+        $query = $this->conn->prepare("UPDATE `user_faculty_files` SET `STATUS`='active' WHERE `ID` = '$id'");
         if ($query->execute()) {
             return 200;
         }

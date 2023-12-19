@@ -108,5 +108,8 @@ if (isset($_POST['submitType'])) {
         echo $db->facultyDeleteFile($fileId);
     } elseif ($submitType == 'FacultyEditFile') {
         echo $db->facultyEditFile($_POST);
+    } elseif ($submitType == 'FacultyRestoreFile') {
+        $id = $_POST['id'];
+        echo $db->facultyRestoreFile($id);
     }
 }
