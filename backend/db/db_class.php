@@ -51,6 +51,20 @@ class global_class extends db_connect
         }
     }
 
+    public function facultyEditAccount($post)
+    {
+        $userId = $post['userId'];
+        $name = $post['name'];
+        $email = $post['email'];
+        $username = $post['username'];
+        $password = $post['password'];
+
+        $query = $this->conn->prepare("UPDATE `users` SET `NAME`='$name',`EMAIL`='$email',`USERNAME`='$username',`PASSWORD`='$password' WHERE `ID` = '$userId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
     public function getDeletedFiles()
     {
         $query = $this->conn->prepare("SELECT * FROM `files` WHERE `STATUS` = 'deleted'");

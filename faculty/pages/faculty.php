@@ -126,8 +126,49 @@ include('../components/header.php');
                         </tbody>
                     </table>
                 </div>
-    <?php
+            <?php
             }
+        } elseif ($_GET['page'] == 'ManageAccount') {
+            ?>
+            <div class="edit-user-container container">
+                <?php
+                $checkUser = $db->getUser($user_id);
+                if ($checkUser->num_rows > 0) {
+                    $user = $checkUser->fetch_assoc();
+                ?>
+                    <form id="frmEditUser">
+                        <div class="mt-5">
+                            <label for="editName">Name:</label>
+                            <input type="text" class="form-control" id="editName" name="editName" value="<?= $user['NAME'] ?>">
+                        </div>
+
+                        <div class="mt-3">
+                            <label for="editEmail">Email:</label>
+                            <input type="text" class="form-control" id="editEmail" name="editEmail" value="<?= $user['EMAIL'] ?>">
+                        </div>
+                        <div class="mt-3">
+                            <label for="editUsername">Username:</label>
+                            <input type="text" class="form-control" id="editUsername" name="editUsername" value="<?= $user['USERNAME'] ?>">
+                        </div>
+                        <div class="mt-3">
+                            <label for="editPassword">Password:</label>
+                            <input type="password" class="form-control" id="editPassword" name="editPassword" value="<?= $user['PASSWORD'] ?>">
+                        </div>
+                        <div class="mt-4 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-dark">Save Changes</button>
+                        </div>
+                    </form>
+                <?php
+                } else {
+                ?>
+                    <center class="mt-3">
+                        <h5> Please select user. </h5>
+                    </center>
+                <?php
+                }
+                ?>
+            </div>
+    <?php
         }
     }
     ?>

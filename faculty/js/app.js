@@ -1,4 +1,10 @@
 $(document).ready(function () {
+  const reload = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
+
   const alert = (alertType, text) => {
     $(".alert").addClass(alertType).css("opacity", "1").text(text);
     setTimeout(() => {
@@ -75,7 +81,37 @@ $(document).ready(function () {
         console.log(response);
         if (response == "200") {
           alert("alert-success", "File edited!");
-          window.location.reload();
+          reload;
+        } else {
+          alert("alert-danger", "Something went wrong.");
+        }
+      },
+    });
+  });
+
+  $("#frmEditUser").submit(function (e) {
+    e.preventDefault();
+    var userId = $("#userId").val();
+    var name = $("#editName").val();
+    var email = $("#editEmail").val();
+    var username = $("#editUsername").val();
+    var password = $("#editPassword").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "FacultyEditAccount",
+        userId: userId,
+        name: name,
+        email: email,
+        username: username,
+        password: password,
+      },
+      success: function (response) {
+        if (response == "200") {
+          alert("alert-success", "Account edited!");
+          reload();
         } else {
           alert("alert-danger", "Something went wrong.");
         }

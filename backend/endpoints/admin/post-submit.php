@@ -88,5 +88,7 @@ if (isset($_POST['submitType'])) {
         $editFile = $admin_db->editFile($fileId, $fileName, $tags, $notes);
         $auditLog = $db->insertAudit($userId, $fileId);
         echo ($editFile == 200 && $auditLog == 200) ? '200' : '404';
+    } elseif ($submitType == 'FacultyEditAccount') {
+        echo $db->facultyEditAccount($_POST);
     }
 }
