@@ -226,6 +226,19 @@ class global_class extends db_connect
             return 200;
         }
     }
+
+    public function facultyEditFile($post)
+    {
+        $dateTime = $this->dateTime();
+        $fileName = $post['name'];
+        $notes = $post['notes'];
+        $tags = $post['tags'];
+        $fileId = $post['fileId'];
+        $query = $this->conn->prepare("UPDATE `user_faculty_files` SET `DISPLAY_FILE_NAME`='$fileName',`NOTES`='$notes',`TAGS`='$tags',`DATETIME`='$dateTime' WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
 }
 
 

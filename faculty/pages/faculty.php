@@ -208,7 +208,7 @@ include('../components/header.php');
                                         <td><?= $file['DISPLAY_FILE_NAME'] ?></td>
                                         <td><?= $formattedDateTime ?></td>
                                         <td>
-                                            <button class="btn btnFacultyEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btnFacultyEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
                                             <button class="btn btnFacultyDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
                                             <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
                                         </td>

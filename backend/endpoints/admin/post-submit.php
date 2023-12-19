@@ -106,5 +106,7 @@ if (isset($_POST['submitType'])) {
     } elseif ($submitType == 'FacultyDeleteFile') {
         $fileId = $_POST['fileId'];
         echo $db->facultyDeleteFile($fileId);
+    } elseif ($submitType == 'FacultyEditFile') {
+        echo $db->facultyEditFile($_POST);
     }
 }

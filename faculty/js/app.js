@@ -300,4 +300,48 @@ $(document).ready(function () {
       },
     });
   });
+
+  $(".btnFacultyEditFile").click(function (e) {
+    e.preventDefault();
+    $("#FacultyEditFileName").val($(this).data("name"));
+    $("#FacultyEditNotes").val($(this).data("notes"));
+    $("#FacultyEditTags").val($(this).data("tags"));
+    $("#FacultyEditFileId").val($(this).data("id"));
+    $("#FacultyEditFileModal").modal("show");
+  });
+
+  $("#btnFacultyCloseEditFileModal").click(function (e) {
+    e.preventDefault();
+    closeModal("FacultyEditFileModal");
+  });
+
+  $("#frmFacultyEditFile").submit(function (e) {
+    e.preventDefault();
+
+    var name = $("#FacultyEditFileName").val();
+    var notes = $("#FacultyEditNotes").val();
+    var tags = $("#FacultyEditTags").val();
+    var fileId = $("#FacultyEditFileId").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "FacultyEditFile",
+        name: name,
+        notes: notes,
+        tags: tags,
+        fileId: fileId,
+      },
+      success: function (response) {
+        closeModal("FacultyEditFileModal");
+        if (response == "200") {
+          alert("alert-success", "File Edited!");
+          reload();
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
 });

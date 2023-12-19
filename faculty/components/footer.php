@@ -362,6 +362,39 @@
 <!-- End of Add New User Modal -->
 
 
+<!-- Edit File Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="FacultyEditFileModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit File</h5>
+            </div>
+            <form id="frmFacultyEditFile">
+                <div class="modal-body">
+                    <div>
+                        <label for="notes">Display Filename:</label>
+                        <input type="text" id="FacultyEditFileName" name="fileName" class="form-control mt-1" required>
+                    </div>
+                    <div>
+                        <label for="notes">Notes:</label>
+                        <input type="text" id="FacultyEditNotes" name="notes" class="form-control mt-1" required>
+                    </div>
+                    <div>
+                        <label for="tags">Tags:</label>
+                        <input type="text" id="FacultyEditTags" name="tags" class="form-control mt-1" required>
+                    </div>
+                </div>
+                <input type="hidden" name="fileId" id="FacultyEditFileId" value="">
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="reset" class="btn btn-secondary" id="btnFacultyCloseEditFileModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Edit File Modal -->
+
 <footer class="footer bg-dark p-3">
     <center>
         <a href="#" class="m-5">Contact</a>
