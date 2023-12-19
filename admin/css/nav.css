@@ -19,6 +19,18 @@
   box-shadow: 1px 1px 5px rgb(170, 170, 170);
 }
 
+/* search */
+.nav-search-bar {
+  position: relative;
+}
+
+.search-suggestion-container {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
 .side-nav-li {
   margin-top: 5px;
   height: 40px;

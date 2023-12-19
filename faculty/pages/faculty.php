@@ -372,7 +372,66 @@ include('../components/header.php');
                     </tbody>
                 </table>
             </div>
+            <?php
+        } elseif ($_GET['page'] == 'Search') {
+            if (isset($_GET['file'])) {
+                $fileId = $_GET['file'];
+                $getFile = $db->getFilesUsingFileId($fileId);
+                if ($getFile->num_rows > 0) {
+                    $file = $getFile->fetch_assoc();
+                    $dateTimeString = $file['DATETIME'];
+                    $dateTime = new DateTime($dateTimeString);
+                    $formattedDateTime = $dateTime->format('F j, Y g:i a');
+            ?>
+                    <!-- End Page Title -->
+                    <div class="pagetitle mt-3 d-flex justify-content-between">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <!-- <li class="breadcrumb-item"><a href="faculty.php?page=SharedFiles">Shared Files</a></li> -->
+                                <li class="breadcrumb-item">
+                                    <h6>Your search</h6>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- End Page Title -->
+                    <div class="">
+                        <div class="container file-main-container p-3 pt-5 pb-5 card">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="hightlight-color"><i class="bi bi-file-earmark-fill"></i><?= $file['DISPLAY_FILE_NAME'] ?></h4>
+                                <div>
+                                    <button class="btn btnFacultyEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
+                                    <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h6 class="hightlight-color">Notes:</h6>
+                                <textarea class="form-control" readonly><?= $file['NOTES'] ?></textarea>
+                            </div>
+                            <div class="mt-3">
+                                <h6 class="hightlight-color">Tags:</h6>
+                                <textarea class="form-control" readonly><?= $file['TAGS'] ?></textarea>
+                            </div>
+
+                            <div class="d-flex mt-3">
+                                <div class="">
+                                    <h6 class="hightlight-color">Document ID</h6>
+                                    <input type="text" class="form-control" value="<?= $file['ID'] ?>">
+                                </div>
+                                <div class="file-date-container">
+                                    <h6 class="hightlight-color">Date</h6>
+                                    <input type="text" class="form-control" value="<?= $formattedDateTime ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
     <?php
+                } else {
+                    backToAdminMain();
+                }
+            } else {
+                backToAdminMain();
+            }
         }
     }
     ?>

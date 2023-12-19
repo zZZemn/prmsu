@@ -175,6 +175,15 @@ class global_class extends db_connect
         }
     }
 
+    public function getFilesUsingDisplayFileNameSearch($fileName)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_files` WHERE `DISPLAY_FILE_NAME` LIKE '%$fileName%'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
     public function facultyAddNewFile($post, $file)
     {
         $folderId = $post['folderId'];
@@ -626,6 +635,15 @@ class admin_class extends db_connect
                                                     VALUES ('$userId','$name','$email','$username','$password','$facultyId','faculty','active')");
         if ($query->execute()) {
             return 200;
+        }
+    }
+
+    public function searchFileName($search)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `files` WHERE `DISPLAY_FILE_NAME` LIKE '%$search%'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
         }
     }
 }

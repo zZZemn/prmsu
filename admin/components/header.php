@@ -57,7 +57,16 @@ if ($getUser->num_rows > 0) {
     </nav>
     <aside class="side-bar bg-light text-light">
         <div class="nav-search-bar p-2">
-            <input type="search" class="form-control" placeholder="Search files...">
+            <input type="search" class="form-control" id="search" placeholder="Search files...">
+            <span class="search-suggestion-container container text-dark">
+                <ul class="list-group search-items-container" id="search-items-container">
+                    <!-- <li class="list-group-item">
+                        <a href="#" class="text-dark txt-folder-link">
+                            asdjhgsjagd
+                        </a>
+                    </li> -->
+                </ul>
+            </span>
         </div>
         <ul class="side-nav-ul list-group p-2">
             <li class="side-nav-li">

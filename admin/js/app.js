@@ -628,4 +628,25 @@ $(document).ready(function () {
       },
     });
   });
+
+  // search
+  $("#search").keydown(function (e) {
+    var search = $(this).val();
+    if (search.length > 1) {
+      $.ajax({
+        type: "GET",
+        url: "../../backend/endpoints/admin/get-request.php",
+        data: {
+          submitType: "GetMessages",
+          search: search,
+        },
+        success: function (response) {
+          console.log(response);
+          $("#search-items-container").html(response);
+        },
+      });
+    } else {
+      $("#search-items-container").empty();
+    }
+  });
 });
