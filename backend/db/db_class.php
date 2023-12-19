@@ -94,6 +94,40 @@ class global_class extends db_connect
             return 200;
         }
     }
+
+    public function getFolders($userId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `user_faculty_folder` WHERE `USER_ID` = '$userId' AND `STATUS` = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function facultyAddNewFolder($userId, $folderName)
+    {
+        $dateTime = $this->dateTime();
+        $query = $this->conn->prepare("INSERT INTO `user_faculty_folder`(`USER_ID`, `FOLDER_NAME`, `DATETIME`, `STATUS`) VALUES ('$userId','$folderName','$dateTime','active')");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    public function facultyDeleteFolder($folderId)
+    {
+        $query = $this->conn->prepare("UPDATE `user_faculty_folder` SET `STATUS`='deleted' WHERE `ID` = '$folderId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    public function facultyEditFolder($folderId, $name)
+    {
+        $query = $this->conn->prepare("UPDATE `user_faculty_folder` SET `FOLDER_NAME`='$name' WHERE `ID` = '$folderId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
 }
 
 

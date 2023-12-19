@@ -118,4 +118,114 @@ $(document).ready(function () {
       },
     });
   });
+
+  // Folder
+
+  // Add
+  $("#btnAddFolder").click(function (e) {
+    e.preventDefault();
+    $("#addFileFolderModal").modal("show");
+  });
+
+  $("#btnCloseAddFileFolderModal").click(function (e) {
+    e.preventDefault();
+    closeModal("addFileFolderModal");
+  });
+
+  $("#frmAddNewFileFolder").submit(function (e) {
+    e.preventDefault();
+    var userId = $("#userId").val();
+    var folderName = $("#AddFileFolderName").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "FacultyAddNewFolder",
+        userId: userId,
+        folderName: folderName,
+      },
+      success: function (response) {
+        closeModal("addFileFolderModal");
+        if (response == "200") {
+          alert("alert-success", "Folder Added!");
+          reload();
+        } else {
+          alert("alert-danger", "Something went wrong.");
+        }
+      },
+    });
+  });
+
+  // Delete
+  $(".btnDeleteFolder").click(function (e) {
+    e.preventDefault();
+    $("#deleteFileFolderId").val($(this).data("id"));
+    $("#deleteFileFolderModal").modal("show");
+  });
+
+  $("#btnCloseDeleteFileFolderModal").click(function (e) {
+    e.preventDefault();
+    closeModal("deleteFileFolderModal");
+  });
+
+  $("#frmDeleteFileFolder").submit(function (e) {
+    e.preventDefault();
+    var folderId = $("#deleteFileFolderId").val();
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "FacultyDeleteFolder",
+        folderId: folderId,
+      },
+      success: function (response) {
+        closeModal("deleteFileFolderModal");
+        if (response == "200") {
+          alert("alert-success", "Folder Deleted!");
+          reload();
+        } else {
+          alert("alert-danger", "Something went wrong.");
+        }
+      },
+    });
+  });
+
+  // Edit
+  $(".btnEditFolder").click(function (e) {
+    e.preventDefault();
+    $("#renameFolderName").val($(this).data("name"));
+    $("#renameFolderId").val($(this).data("id"));
+    $("#RenameFolderModal").modal("show");
+  });
+
+  $("#btnCloseRenameFolderModal").click(function (e) {
+    e.preventDefault();
+    closeModal("RenameFolderModal");
+  });
+
+  $("#frmRenameFolder").submit(function (e) {
+    e.preventDefault();
+    var name = $("#renameFolderName").val();
+    var folderId = $("#renameFolderId").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: {
+        submitType: "FacultyRenameFolder",
+        folderId: folderId,
+        name: name,
+      },
+      success: function (response) {
+        closeModal("RenameFolderModal");
+        if (response == "200") {
+          alert("alert-success", "Folder Updated!");
+          reload();
+        } else {
+          alert("alert-danger", "Something went wrong.");
+        }
+      },
+    });
+  });
 });

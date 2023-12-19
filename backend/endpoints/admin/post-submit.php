@@ -90,5 +90,16 @@ if (isset($_POST['submitType'])) {
         echo ($editFile == 200 && $auditLog == 200) ? '200' : '404';
     } elseif ($submitType == 'FacultyEditAccount') {
         echo $db->facultyEditAccount($_POST);
+    } elseif ($submitType == 'FacultyAddNewFolder') {
+        $userId = $_POST['userId'];
+        $folderName = $_POST['folderName'];
+        echo $db->facultyAddNewFolder($userId, $folderName);
+    } elseif ($submitType == 'FacultyDeleteFolder') {
+        $folderId = $_POST['folderId'];
+        echo $db->facultyDeleteFolder($folderId);
+    } elseif ($submitType == 'FacultyRenameFolder') {
+        $folderId = $_POST['folderId'];
+        $name = $_POST['name'];
+        echo $db->facultyEditFolder($folderId, $name);
     }
 }

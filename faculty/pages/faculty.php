@@ -168,7 +168,61 @@ include('../components/header.php');
                 }
                 ?>
             </div>
+            <?php
+        } elseif ($_GET['page'] == 'folders') {
+            if (isset($_GET['folder'])) {
+                $foldeId = $_GET['folder'];
+            } else {
+            ?>
+                <!-- End Page Title -->
+                <div class="pagetitle mt-3 d-flex justify-content-between">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <!-- <li class="breadcrumb-item"><a href="Faculty.php">Home</a></li> -->
+                        </ol>
+                    </nav>
+                    <button class="btn btn-dark" id="btnAddFolder" data-id="<?= $folderId ?>">New File</button>
+                </div>
+                <!-- End Page Title -->
+                <div class="">
+                    <table class="table">
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                        <?php
+                        $getFacultyFolders = $db->getFolders($user_id);
+                        if ($getFacultyFolders->num_rows > 0) {
+                            while ($folder = $getFacultyFolders->fetch_assoc()) {
+                                $dateTimeString = $folder['DATETIME'];
+                                $dateTime = new DateTime($dateTimeString);
+                                $formattedDateTime = $dateTime->format('F j, Y g:i a');
+                        ?>
+                                <tr>
+                                    <td><a href="faculty.php?page=folders&folder=<?= $folder['ID'] ?>" class="text-dark txt-folder-link"><?= $folder['FOLDER_NAME'] ?></a></td>
+                                    <td><?= $formattedDateTime ?></td>
+                                    <td>
+                                        <button class="btn btnEditFolder" data-id="<?= $folder['ID'] ?>" data-name="<?= $folder['FOLDER_NAME'] ?>"><i class="bi bi-pencil"></i></button>
+                                        <button class="btn btnDeleteFolder" data-id="<?= $folder['ID'] ?>"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                        } else {
+                            ?>
+                            <tr>
+                                <td>
+                                    <center>No Folder Found</center>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </table>
+                </div>
     <?php
+            }
         }
     }
     ?>
