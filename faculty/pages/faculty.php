@@ -4,13 +4,15 @@ include('../components/header.php');
 <main class="main-container container bg-light">
     <?php
     if (isset($_GET['page'])) {
-        if ($_GET['page'] == 'inbox') {
     ?>
+        <input type="hidden" id="userId" value="<?= $user_id ?>">
+        <?php
+        if ($_GET['page'] == 'inbox') {
+        ?>
             <div class="container message-content-container">
                 <div class="message-content-container-iside container" id="messageContainer">
 
                 </div>
-                <input type="hidden" id="userId" value="<?= $user_id ?>">
                 <script>
                     const getMessages = () => {
                         var userId = $("#userId").val();
@@ -35,45 +37,97 @@ include('../components/header.php');
                     <button type="submit" class="btn btn-dark m-1">Send</button>
                 </form>
             </div>
-        <?php
+            <?php
         } elseif ($_GET['page'] == 'SharedFiles') {
-        ?>
-            <div class="container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th class="">Name</th>
-                            <th class="">Date</th>
-                            <th class="">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $getSharedFiles = $admin_db->getSharedFiles($user_id);
-                        if ($getSharedFiles->num_rows > 0) {
-                            while ($file = $getSharedFiles->fetch_assoc()) {
-                        ?>
+            if (isset($_GET['file'])) {
+                $checkFile = $admin_db->getFile($_GET['file']);
+                if ($checkFile->num_rows > 0) {
+                    $file = $checkFile->fetch_assoc();
+                    $dateTimeString = $file['DATETIME'];
+                    $dateTime = new DateTime($dateTimeString);
+                    $formattedDateTime = $dateTime->format('F j, Y g:i a');
+            ?>
+                    <!-- End Page Title -->
+                    <div class="pagetitle mt-3 d-flex justify-content-between">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="faculty.php?page=SharedFiles">Shared Files</a></li>
+                                <li class="breadcrumb-item"><?= $file['DISPLAY_FILE_NAME'] ?></li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- End Page Title -->
+                    <div class="">
+                        <div class="container file-main-container p-3 pt-5 pb-5 card">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="hightlight-color"><i class="bi bi-file-earmark-fill"></i><?= $file['DISPLAY_FILE_NAME'] ?></h4>
+                                <div>
+                                    <button class="btn btnEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
+                                    <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h6 class="hightlight-color">Notes:</h6>
+                                <textarea class="form-control" readonly><?= $file['NOTES'] ?></textarea>
+                            </div>
+                            <div class="mt-3">
+                                <h6 class="hightlight-color">Tags:</h6>
+                                <textarea class="form-control" readonly><?= $file['TAGS'] ?></textarea>
+                            </div>
+
+                            <div class="d-flex mt-3">
+                                <div class="">
+                                    <h6 class="hightlight-color">Document ID</h6>
+                                    <input type="text" class="form-control" value="<?= $file['ID'] ?>">
+                                </div>
+                                <div class="file-date-container">
+                                    <h6 class="hightlight-color">Date</h6>
+                                    <input type="text" class="form-control" value="<?= $formattedDateTime ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                } else {
+                    header('Location: faculty.php?page=SharedFiles');
+                }
+            } else {
+                ?>
+                <div class="container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="">Name</th>
+                                <th class="">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $getSharedFiles = $admin_db->getSharedFiles($user_id);
+                            if ($getSharedFiles->num_rows > 0) {
+                                while ($file = $getSharedFiles->fetch_assoc()) {
+                            ?>
+                                    <tr>
+                                        <td><i class="bi bi-file-earmark"></i> <a href="faculty.php?page=SharedFiles&file=<?= $file['ID'] ?>" class="text-dark txt-folder-link"><?= $file['DISPLAY_FILE_NAME'] ?></a></td>
+                                        <td><?= $file['DATETIME'] ?></td>
+                                    </tr>
+                                <?php
+                                }
+                            } else {
+                                ?>
                                 <tr>
-                                    <td><?= $file['DISPLAY_FILE_NAME'] ?></td>
-                                    <td><?= $file['DATETIME'] ?></td>
-                                    <td><?= $user_id ?></td>
+                                    <td colspan="3">
+                                        <center>No shared files.</center>
+                                    </td>
                                 </tr>
                             <?php
                             }
-                        } else {
                             ?>
-                            <tr>
-                                <td colspan="3">
-                                    <center>No shared files.</center>
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
     <?php
+            }
         }
     }
     ?>

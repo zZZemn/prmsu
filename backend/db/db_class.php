@@ -9,6 +9,13 @@ class global_class extends db_connect
         $this->connect();
     }
 
+    public function dateTime()
+    {
+        $timezone = new DateTimeZone('Asia/Manila');
+        $dateTime = new DateTime('now', $timezone);
+        return $dateTime->format('Y-m-d H:i:s');
+    }
+
     public function login($username, $password, $userType)
     {
         $query = $this->conn->prepare("SELECT * FROM `users` WHERE `USERNAME` = '$username' AND `PASSWORD` = '$password' AND `USER_TYPE` = '$userType'");
@@ -56,6 +63,19 @@ class global_class extends db_connect
     public function restoreFile($fileId)
     {
         $query = $this->conn->prepare("UPDATE `files` SET `STATUS`='active' WHERE `ID` = '$fileId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
+    // Audit
+    public function insertAudit($userId, $fileId)
+    {
+        $dateTime = $this->dateTime();
+        $query = $this->conn->prepare("INSERT INTO `audit_log`(`USER_ID`, `FILE_ID`, `DATE_TIME`, `ACTION`) VALUES (?, ?, ?, 'Edit file')");
+
+        $query->bind_param("sss", $userId, $fileId, $dateTime);
+
         if ($query->execute()) {
             return 200;
         }

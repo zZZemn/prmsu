@@ -79,5 +79,14 @@ if (isset($_POST['submitType'])) {
         $userId = $_POST['userId'];
         $message = $_POST['message'];
         echo $admin_db->facultySendMessage($userId, $message);
+    } elseif ($submitType == 'FacultyEditSharedFiles') {
+        $userId = $_POST['userId'];
+        $fileId = $_POST['fileId'];
+        $fileName = $_POST['fileName'];
+        $notes = $_POST['notes'];
+        $tags = $_POST['tags'];
+        $editFile = $admin_db->editFile($fileId, $fileName, $tags, $notes);
+        $auditLog = $db->insertAudit($userId, $fileId);
+        echo ($editFile == 200 && $auditLog == 200) ? '200' : '404';
     }
 }
