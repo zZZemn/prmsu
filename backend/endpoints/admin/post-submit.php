@@ -113,5 +113,7 @@ if (isset($_POST['submitType'])) {
         echo $db->facultyRestoreFile($id);
     } elseif ($submitType == 'AddTasks') {
         echo $admin_db->addTasks($_POST, $_FILES['taskFile']);
+    } elseif ($submitType == 'FacultyAddTaskResponse') {
+        echo $db->submitResponse($_POST, $_FILES['responseFile']);
     }
 }

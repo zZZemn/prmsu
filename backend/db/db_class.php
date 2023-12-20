@@ -276,6 +276,52 @@ class global_class extends db_connect
             return $result;
         }
     }
+
+    public function checkFileName($fileName)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `tasks` WHERE `RESPONSE_FILE_NAME` = '$fileName'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+    public function submitResponse($post, $file)
+    {
+        $taskId = $post['taskId'];
+        $comment = $post['comment'];
+
+        $dateTime = $this->dateTime();
+
+        do {
+            $fileName = 'prmsu_' . $this->generateRandomString(12);
+            $checkFileName = $this->checkFileName($fileName);
+        } while ($checkFileName->num_rows > 0);
+
+        if (!empty($_FILES['responseFile']['size'])) {
+            $file_name = $file['name'];
+            $file_tmp = $file['tmp_name'];
+            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+            $destinationDirectory = __DIR__ . '/../TaskResponse/';
+            $newFileName = $fileName . '.' . $extension;
+            $destination = $destinationDirectory . $newFileName;
+            if (is_uploaded_file($file_tmp)) {
+                if (move_uploaded_file($file_tmp, $destination)) {
+                    $query = $this->conn->prepare("UPDATE `tasks` SET `RESPONSE_COMMENT`='$comment',`RESPONSE_FILE_NAME`='$newFileName',`RESPONSE_DISPLAY_FILE_NAME`='$file_name',`RESPONSE_DATETIME`='$dateTime' WHERE `ID` = '$taskId'");
+                    if ($query->execute()) {
+                        return 200;
+                    }
+                } else {
+                    // return 'Uploading file unsuccessfull';
+                    return $destination;
+                }
+            } else {
+                return "Error: File upload failed or file not found.";
+            }
+        } else {
+            return 'File is empty';
+        }
+    }
 }
 
 

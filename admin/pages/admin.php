@@ -686,7 +686,17 @@ include('../components/header.php');
                                                 </div>
                                                 <div class="">
                                                     <p>Comment: <?= ($task['RESPONSE_COMMENT'] != '') ? $task['RESPONSE_COMMENT'] : 'Waiting...' ?></p>
-                                                    <a>File: <?= ($task['RESPONSE_COMMENT'] != '') ? $task['RESPONSE_FILE_NAME'] : 'No File Found.' ?></a>
+                                                    <p>File:
+                                                        <?php
+                                                        if ($task['RESPONSE_COMMENT'] != '') {
+                                                        ?>
+                                                            <a href="../../backend/TaskResponse/<?= $task['RESPONSE_FILE_NAME'] ?>" class="text-dark txt-folder-link" download>
+                                                                <i class="bi bi-paperclip"></i> <?= $task['RESPONSE_DISPLAY_FILE_NAME'] ?>
+                                                            </a>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

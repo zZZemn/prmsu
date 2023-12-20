@@ -93,3 +93,11 @@
   position: absolute;
   right: 10px;
 }
+
+
+/* Tasks */
+
+.tasks-container {
+  height: 93vh;
+  overflow-y: auto;
+}

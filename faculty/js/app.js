@@ -387,4 +387,29 @@ $(document).ready(function () {
       $("#search-items-container").empty();
     }
   });
+
+  // Tasks
+  $("#frmTaskResponse").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "Task Added!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
 });

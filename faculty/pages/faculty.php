@@ -425,13 +425,79 @@ include('../components/header.php');
                             </div>
                         </div>
                     </div>
-    <?php
+            <?php
                 } else {
                     backToAdminMain();
                 }
             } else {
                 backToAdminMain();
             }
+        } elseif ($_GET['page'] == 'notification') {
+            ?>
+            <div class="tasks-container">
+                <?php
+                $getTasks = $db->getUserTasks($user_id);
+                if ($getTasks->num_rows > 0) {
+                    while ($task = $getTasks->fetch_assoc()) {
+                        $dateTimeString = $task['TASK_DATETIME'];
+                        $dateTime = new DateTime($dateTimeString);
+                        $formattedDateTime = $dateTime->format('F j, Y g:i a');
+
+                        $resDateTimeString = $task['RESPONSE_DATETIME'];
+                        $resDateTime = new DateTime($resDateTimeString);
+                        $resFormattedDateTime = $resDateTime->format('F j, Y g:i a');
+                ?>
+                        <div class="card container p-3 mt-3">
+                            <div class="d-flex justify-content-between">
+                                <h6>Your Task</h6>
+                                <p><?= $formattedDateTime ?></p>
+                            </div>
+                            <h5><?= $task['TASK_MESSAGE'] ?></h5>
+                            <a href="../../backend/TaskFiles/<?= $task['TASK_FILE_NAME'] ?>" class="text-dark txt-folder-link" download="">
+                                <i class="bi bi-paperclip"></i>
+                                <?= $task['TASK_DISPLAY_FILE_NAME'] ?>
+                            </a>
+                            <hr>
+                            <div>
+                                <?php
+                                if ($task['RESPONSE_COMMENT'] == '' && $task['RESPONSE_FILE_NAME'] == '') {
+                                ?>
+                                    <div class="container">
+                                        <h6>Upload Response</h6>
+                                        <form id="frmTaskResponse">
+                                            <input type="hidden" name="submitType" value="FacultyAddTaskResponse">
+                                            <input type="hidden" name="taskId" value="<?= $task['ID'] ?>">
+                                            <input type="text" class="form-control" name="comment" placeholder="Add Comment Here..." required>
+                                            <input type="file" class="form-control mt-2" name="responseFile" required>
+                                            <button type="submit" class="btn btn-dark mt-2">Submit</button>
+                                        </form>
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="d-flex justify-content-between">
+                                        <h6>Your Response</h6>
+                                        <p><?= ($resDateTimeString != '0000-00-00 00:00:00') ? $resFormattedDateTime : '' ?></p>
+                                    </div>
+                                    <div class="">
+                                        <p>Comment: <?= ($task['RESPONSE_COMMENT'] != '') ? $task['RESPONSE_COMMENT'] : 'Waiting...' ?></p>
+                                        <a>File: <?= ($task['RESPONSE_COMMENT'] != '') ? $task['RESPONSE_FILE_NAME'] : 'No File Found.' ?></a>
+                                    </div>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <center>No Task Found.</center>
+                <?php
+                }
+                ?>
+            </div>
+    <?php
         }
     }
     ?>
