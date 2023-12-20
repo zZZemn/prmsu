@@ -9,6 +9,17 @@ class global_class extends db_connect
         $this->connect();
     }
 
+    public function sendMessage($senderId, $userId, $message)
+    {
+        $dateTime = $this->dateTime();
+        $query = $this->conn->prepare("INSERT INTO `message`(`SENDER_ID`, `RECEIVER_ID`, `MESSAGE`, `DATE_TIME`) VALUES (?, ?, ?, ?)");
+        $query->bind_param('ssss', $senderId, $userId, $message, $dateTime);
+
+        if ($query->execute()) {
+            return 200;
+        }
+    }
+
     public function generateRandomString($length)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -286,8 +297,18 @@ class global_class extends db_connect
         }
     }
 
+    public function checkTask($taskId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `tasks` WHERE `ID` = '$taskId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
     public function submitResponse($post, $file)
     {
+
         $taskId = $post['taskId'];
         $comment = $post['comment'];
 
@@ -309,6 +330,13 @@ class global_class extends db_connect
                 if (move_uploaded_file($file_tmp, $destination)) {
                     $query = $this->conn->prepare("UPDATE `tasks` SET `RESPONSE_COMMENT`='$comment',`RESPONSE_FILE_NAME`='$newFileName',`RESPONSE_DISPLAY_FILE_NAME`='$file_name',`RESPONSE_DATETIME`='$dateTime' WHERE `ID` = '$taskId'");
                     if ($query->execute()) {
+                        // send message
+                        $getTask = $this->checkTask($taskId);
+                        if ($getTask->num_rows > 0) {
+                            $task = $getTask->fetch_assoc();
+                            $userId = $task['FOR_USER_ID'];
+                            $this->sendMessage($userId, 'ADMIN_1', 'Sent an attachment in tasks.');
+                        }
                         return 200;
                     }
                 } else {

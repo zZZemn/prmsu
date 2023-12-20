@@ -423,9 +423,10 @@
 
 <footer class="footer bg-dark p-3">
     <center>
-        <a href="#" class="m-5">Contact</a>
+        <!-- <a href="#" class="m-5">Contact</a>
         <a href="#" class="m-5">Privacy</a>
-        <a href="#" class="m-5">Terms of Use</a>
+        <a href="#" class="m-5">Terms of Use</a> -->
+        <center class="text-light"><i class="bi bi-c-circle"></i> 2023 - PRMSU COE-DMS - All Rights Reserved.</center>
     </center>
 </footer>
 
