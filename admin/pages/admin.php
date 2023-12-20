@@ -620,6 +620,105 @@ include('../components/header.php');
                     </tbody>
                 </table>
             </div>
+        <?php
+    } elseif (isset($_GET['page']) && $_GET['page'] == 'addTask') {
+        ?>
+            <div class="d-flex">
+                <div class="message-sender-container card">
+                    <ul class="list-group">
+                        <?php
+                        $getUsers = $db->getFacultyUsers();
+                        if ($getUsers->num_rows > 0) {
+                            while ($user = $getUsers->fetch_assoc()) {
+                        ?>
+                                <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=addTask&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['NAME'] ?></a></li>
+                            <?php
+                            }
+                        } else {
+                            ?>
+                            <li class="list-group-item">No User Found</li>
+                        <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <div class="container">
+                    <?php
+                    if (isset($_GET['user'])) {
+                        $userId = $_GET['user'];
+                        $checkUser = $db->getUser($userId);
+                        if ($checkUser->num_rows > 0) {
+                    ?>
+                            <button class="btn btn-primary btn-add-new-user" id="btnOpenAddTask" data-id="<?= $userId ?>"><i class="bi bi-bookmark-plus"></i> Add Task</button>
+                            <div class="tasks-container container mt-5">
+                                <?php
+                                $getUserTasks = $db->getUserTasks($userId);
+                                if ($getUserTasks->num_rows > 0) {
+                                    while ($task = $getUserTasks->fetch_assoc()) {
+                                        $dateTimeString = $task['TASK_DATETIME'];
+                                        $dateTime = new DateTime($dateTimeString);
+                                        $formattedDateTime = $dateTime->format('F j, Y g:i a');
+
+                                        $resDateTimeString = $task['RESPONSE_DATETIME'];
+                                        $resDateTime = new DateTime($resDateTimeString);
+                                        $resFormattedDateTime = $resDateTime->format('F j, Y g:i a');
+                                ?>
+                                        <div class="container card mt-3 p-3">
+                                            <div class="container">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5>Task</h5>
+                                                    <p><?= $formattedDateTime ?></p>
+                                                </div>
+                                                <div class="task-message">
+                                                    <input type="text" readonly value="<?= $task['TASK_MESSAGE']; ?>" class="form-control">
+                                                </div>
+                                                <div class="task-message mt-3">
+                                                    <p><i class="bi bi-file-earmark-fill"></i> <?= $task['TASK_DISPLAY_FILE_NAME']; ?></p>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="container">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5>Response</h5>
+                                                    <p><?= ($resDateTimeString != '0000-00-00 00:00:00') ? $resFormattedDateTime : '' ?></p>
+                                                </div>
+                                                <div class="">
+                                                    <p>Comment: <?= ($task['RESPONSE_COMMENT'] != '') ? $task['RESPONSE_COMMENT'] : 'Waiting...' ?></p>
+                                                    <a>File: <?= ($task['RESPONSE_COMMENT'] != '') ? $task['RESPONSE_FILE_NAME'] : 'No File Found.' ?></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <center class="mt-3">
+                                        <h5> No task found. </h5>
+                                    </center>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                        <?php
+                        } else {
+                        ?>
+                            <center class="mt-3">
+                                <h5> Please select user. </h5>
+                            </center>
+                        <?php
+                        }
+                    } else {
+                        ?>
+                        <center class="mt-3">
+                            <h5> Please select user. </h5>
+                        </center>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </div>
             <?php
         } elseif (isset($_GET['page']) && $_GET['page'] == 'Search') {
             if (isset($_GET['fileSearch'])) {

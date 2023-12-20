@@ -111,5 +111,7 @@ if (isset($_POST['submitType'])) {
     } elseif ($submitType == 'FacultyRestoreFile') {
         $id = $_POST['id'];
         echo $db->facultyRestoreFile($id);
+    } elseif ($submitType == 'AddTasks') {
+        echo $admin_db->addTasks($_POST, $_FILES['taskFile']);
     }
 }

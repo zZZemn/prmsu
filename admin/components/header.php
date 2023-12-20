@@ -74,6 +74,11 @@ if ($getUser->num_rows > 0) {
                     <i class="bi bi-chat-dots-fill"></i> Inbox
                 </a>
             </li>
+            <li class="side-nav-li">
+                <a href="admin.php?page=addTask" class="a-inbox <?= (isset($_GET['page']) && $_GET['page'] == 'addTask') ? 'side-nav-active' : '' ?>">
+                    <i class="bi bi-plus"></i> Add Task
+                </a>
+            </li>
             <?php
             $getSections = $admin_db->getSections();
             while ($section = $getSections->fetch_assoc()) {

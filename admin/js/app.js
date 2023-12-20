@@ -649,4 +649,43 @@ $(document).ready(function () {
       $("#search-items-container").empty();
     }
   });
+
+  // Add Tasks
+  $("#btnOpenAddTask").click(function (e) {
+    e.preventDefault();
+    console.log($(this).data("id"));
+    $("#addTasksUserId").val($(this).data("id"));
+    $("#addTasksModal").modal("show");
+  });
+
+  $("#btnCloseAddTasksModal").click(function (e) {
+    e.preventDefault();
+    closeModal("addTasksModal");
+  });
+
+  $("#frmAddTasks").submit(function (e) {
+    e.preventDefault();
+
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "Task Added!");
+          closeModal("addTasksModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
 });

@@ -265,6 +265,17 @@ class global_class extends db_connect
             return 200;
         }
     }
+
+
+    // Tasks
+    public function getUserTasks($userId)
+    {
+        $query = $this->conn->prepare("SELECT * FROM `tasks` WHERE `FOR_USER_ID` = '$userId'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
 }
 
 
@@ -644,6 +655,43 @@ class admin_class extends db_connect
         if ($query->execute()) {
             $result = $query->get_result();
             return $result;
+        }
+    }
+
+    public function addTasks($post, $file)
+    {
+        $userId = $post['userId'];
+        $message = $post['message'];
+
+        $dateTime = $this->dateTime();
+
+        do {
+            $fileName = 'prmsu_' . $this->generateRandomString(12);
+            $checkFileName = $this->getFileName($fileName);
+        } while ($checkFileName->num_rows > 0);
+
+        if (!empty($_FILES['taskFile']['size'])) {
+            $file_name = $file['name'];
+            $file_tmp = $file['tmp_name'];
+            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+            $destinationDirectory = __DIR__ . '/../TaskFiles/';
+            $newFileName = $fileName . '.' . $extension;
+            $destination = $destinationDirectory . $newFileName;
+            if (is_uploaded_file($file_tmp)) {
+                if (move_uploaded_file($file_tmp, $destination)) {
+                    $query = $this->conn->prepare("INSERT INTO `tasks`(`FOR_USER_ID`, `TASK_MESSAGE`, `TASK_FILE_NAME`, `TASK_DISPLAY_FILE_NAME`, `TASK_DATETIME`) VALUES ('$userId','$message','$newFileName','$file_name','$dateTime')");
+                    if ($query->execute()) {
+                        return 200;
+                    }
+                } else {
+                    // return 'Uploading file unsuccessfull';
+                    return $destination;
+                }
+            } else {
+                return "Error: File upload failed or file not found.";
+            }
+        } else {
+            return 'File is empty';
         }
     }
 }
