@@ -689,4 +689,40 @@ $(document).ready(function () {
       },
     });
   });
+
+  $("#btnOpenAddTaskToAll").click(function (e) {
+    e.preventDefault();
+    $("#addTasksToAllModal").modal("show");
+  });
+
+  $("#btnCloseAddTasksToAllModal").click(function (e) {
+    e.preventDefault();
+    closeModal("addTasksToAllModal");
+  });
+
+  $("#frmAddTasksToAll").submit(function (e) {
+    e.preventDefault();
+    
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+      type: "POST",
+      url: "../../backend/endpoints/admin/post-submit.php",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        console.log(response);
+        if (response == "200") {
+          alert("alert-success", "Task Added!");
+          closeModal("addTasksModal");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert("alert-danger", "Something Went Wrong!");
+        }
+      },
+    });
+  });
 });

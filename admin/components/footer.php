@@ -391,6 +391,36 @@
 </div>
 <!-- End of Add Tasks Modal -->
 
+<!-- Add Tasks To All Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="addTasksToAllModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Task To All</h5>
+            </div>
+            <form id="frmAddTasksToAll">
+                <input type="hidden" name="submitType" value="AddTasksToAll">
+                <!-- <input type="hidden" name="userId" id="addTasksUserId" value=""> -->
+                <div class="modal-body">
+                    <div>
+                        <label for="message">Message:</label>
+                        <input type="text" id="message" name="message" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label for="taskFile">File</label>
+                        <input type="file" name="taskFile" id="taskFile" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="reset" class="btn btn-secondary" id="btnCloseAddTasksToAllModal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Add Tasks To All Modal -->
+
 <footer class="footer bg-dark p-3">
     <center>
         <a href="#" class="m-5">Contact</a>

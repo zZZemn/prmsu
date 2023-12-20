@@ -332,6 +332,15 @@ class admin_class extends db_connect
         $this->connect();
     }
 
+    public function getFacultyUsers()
+    {
+        $query = $this->conn->prepare("SELECT * FROM `users` WHERE `USER_TYPE` = 'faculty' AND `STATUS` = 'active'");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
     public function generateRandomString($length)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -732,6 +741,50 @@ class admin_class extends db_connect
                 } else {
                     // return 'Uploading file unsuccessfull';
                     return $destination;
+                }
+            } else {
+                return "Error: File upload failed or file not found.";
+            }
+        } else {
+            return 'File is empty';
+        }
+    }
+
+    public function addTasksToAll($post, $file)
+    {
+        $message = $post['message'];
+        $dateTime = $this->dateTime();
+        $fileName = 'prmsu_' . $this->generateRandomString(12);
+
+        if (!empty($_FILES['taskFile']['size'])) {
+            $file_name = $file['name'];
+            $file_tmp = $file['tmp_name'];
+            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+            $destinationDirectory = __DIR__ . '/../TaskFiles/';
+            $newFileName = $fileName . '.' . $extension;
+            $destination = $destinationDirectory . $newFileName;
+            if (is_uploaded_file($file_tmp)) {
+                if (move_uploaded_file($file_tmp, $destination)) {
+                    $returnCode = 200; // Assume success by default
+
+                    $getUsers = $this->getFacultyUsers();
+                    while ($user = $getUsers->fetch_assoc()) {
+                        $userId = $user['ID'];
+                        $query = $this->conn->prepare("INSERT INTO `tasks`(`FOR_USER_ID`, `TASK_MESSAGE`, `TASK_FILE_NAME`, `TASK_DISPLAY_FILE_NAME`, `TASK_DATETIME`) 
+                                                                    VALUES ('$userId', '$message', '$newFileName', '$file_name', '$dateTime')");
+
+                        // $query->bind_param("issss", $userId, $message, $newFileName, $file_name, $dateTime);
+
+                        if (!$query->execute()) {
+                            $returnCode = 500;
+                            error_log("Error in query: " . $query->error);
+                            break;
+                        }
+                        $query->close();
+                    }
+                    return $returnCode;
+                } else {
+                    return 'Uploading file unsuccessfull';
                 }
             } else {
                 return "Error: File upload failed or file not found.";

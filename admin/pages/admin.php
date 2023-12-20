@@ -643,6 +643,7 @@ include('../components/header.php');
                     </ul>
                 </div>
                 <div class="container">
+                    <button class="btn btn-dark" id="btnOpenAddTaskToAll"><i class="bi bi-bookmark-plus"></i> Add Task To All</button>
                     <?php
                     if (isset($_GET['user'])) {
                         $userId = $_GET['user'];
@@ -650,7 +651,7 @@ include('../components/header.php');
                         if ($checkUser->num_rows > 0) {
                     ?>
                             <button class="btn btn-primary btn-add-new-user" id="btnOpenAddTask" data-id="<?= $userId ?>"><i class="bi bi-bookmark-plus"></i> Add Task</button>
-                            <div class="tasks-container container mt-5">
+                            <div class="tasks-container container mt-2">
                                 <?php
                                 $getUserTasks = $db->getUserTasks($userId);
                                 if ($getUserTasks->num_rows > 0) {
