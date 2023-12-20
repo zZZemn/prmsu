@@ -14,6 +14,7 @@ $(document).ready(function () {
   };
 
   const closeModal = (modalId) => {
+    $("#" + modalId + " textarea").val("");
     $("#" + modalId + " input").val("");
     $("#" + modalId).modal("hide");
   };
