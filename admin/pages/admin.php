@@ -331,7 +331,7 @@ include('../components/header.php');
                                         <td>
                                             <button class="btn btnEditFileFolder" data-id="<?= $filesFolder['ID'] ?>" data-name="<?= $filesFolder['FOLDER_NAME'] ?>"><i class="bi bi-pencil"></i></button>
                                             <button class="btn btnDeleteFileFolder" data-id="<?= $filesFolder['ID'] ?>"><i class="bi bi-trash"></i></button>
-                                            <button class="btn btnDownloadFileFolder"><i class="bi bi-box-arrow-down"></i></button>
+                                            <!-- <button class="btn btnDownloadFileFolder"><i class="bi bi-box-arrow-down"></i></button> -->
                                         </td>
                                     </tr>
                                 <?php
@@ -410,7 +410,7 @@ include('../components/header.php');
                                 <td>
                                     <button class="btn btnEditFaculty" data-id="<?= $faculty['ID'] ?>" data-name="<?= $faculty['FACULTY_NAME'] ?>"><i class="bi bi-pencil"></i></button>
                                     <button class="btn btnDeleteFaculty" data-id="<?= $faculty['ID'] ?>"><i class="bi bi-trash"></i></button>
-                                    <button class="btn btnDownloadFaculty"><i class="bi bi-box-arrow-down"></i></button>
+                                    <!-- <button class="btn btnDownloadFaculty"><i class="bi bi-box-arrow-down"></i></button> -->
                                 </td>
                             </tr>
                         <?php
