@@ -86,7 +86,7 @@ include('../components/header.php');
                                                     if ($getSharedFiles->num_rows > 0) {
                                                         while ($sharedFile = $getSharedFiles->fetch_assoc()) {
                                                     ?>
-                                                            <li class="list-group-item"><?= $sharedFile['NAME'] ?></li>
+                                                            <li class="list-group-item"><?= $sharedFile['F_NAME'] . ' ' . $sharedFile['MI'] . ' ' . $sharedFile['L_NAME'] . ' ' . $sharedFile['SUFFIX'] ?></li>
                                                         <?php
                                                         }
                                                     } else {
@@ -107,7 +107,7 @@ include('../components/header.php');
                                                                     while ($facultyPerson = $getFaculty->fetch_assoc()) {
                                                                         $facultyPersonId = $facultyPerson['ID'];
                                                                         $checkSharedFiled = $admin_db->checkSharedFiled($facultyPersonId, $fileId);
-                                                                        echo ($checkSharedFiled->num_rows > 0) ? '' : '<option value="' . $facultyPerson['ID'] . '">' . $facultyPerson['NAME'] . '</option>';
+                                                                        echo ($checkSharedFiled->num_rows > 0) ? '' : '<option value="' . $facultyPerson['ID'] . '">' . $facultyPerson['F_NAME'] . ' ' . $facultyPerson['MI'] . ' ' . $facultyPerson['L_NAME'] . ' ' . $facultyPerson['SUFFIX'] . '</option>';
                                                                     }
                                                                 }
                                                                 ?>
@@ -443,7 +443,7 @@ include('../components/header.php');
                     if ($getUsers->num_rows > 0) {
                         while ($user = $getUsers->fetch_assoc()) {
                     ?>
-                            <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=inbox&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['NAME'] ?></a></li>
+                            <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=inbox&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['F_NAME'] . ' ' . $user['MI'] . ' ' . $user['L_NAME'] . ' ' . $user['SUFFIX'] ?></a></li>
                         <?php
                         }
                     } else {
@@ -652,7 +652,7 @@ include('../components/header.php');
                         if ($getUsers->num_rows > 0) {
                             while ($user = $getUsers->fetch_assoc()) {
                         ?>
-                                <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=addTask&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['NAME'] ?></a></li>
+                                <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=addTask&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['F_NAME'] . ' ' . $user['MI'] . ' ' . $user['L_NAME'] . ' ' . $user['SUFFIX'] ?></a></li>
                             <?php
                             }
                         } else {
