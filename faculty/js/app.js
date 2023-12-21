@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  var isEditPasswordShow = false;
+
   const reload = () => {
     setTimeout(() => {
       window.location.reload();
@@ -89,6 +91,7 @@ $(document).ready(function () {
     });
   });
 
+  // Account
   $("#frmEditUser").submit(function (e) {
     e.preventDefault();
     var userId = $("#userId").val();
@@ -117,6 +120,20 @@ $(document).ready(function () {
         }
       },
     });
+  });
+
+  $("#showPasswordFrmEdit").click(function (e) {
+    e.preventDefault();
+    if (isEditPasswordShow) {
+      $("#editPassword").attr("type", "password");
+      $("#btnShowPasswordIcon").removeClass("bi-eye-fill");
+      $("#btnShowPasswordIcon").addClass("bi-eye-slash-fill");
+    } else {
+      $("#editPassword").attr("type", "text");
+      $("#btnShowPasswordIcon").removeClass("bi-eye-slash-fill");
+      $("#btnShowPasswordIcon").addClass("bi-eye-fill");
+    }
+    isEditPasswordShow = !isEditPasswordShow;
   });
 
   // Folder

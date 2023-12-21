@@ -94,6 +94,16 @@
   right: 10px;
 }
 
+.password-button-container {
+  position: relative;
+}
+
+.password-button-container .btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 
 /* Tasks */
 

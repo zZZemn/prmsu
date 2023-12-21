@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  var isEditPasswordShow = false;
+
   $(document).on("click", function (e) {
     // Check if the clicked element is not a .btn-toggle-section-menu
     if (!$(e.target).closest(".btn-toggle-section-menu").length) {
@@ -577,6 +579,20 @@ $(document).ready(function () {
     });
   });
 
+  $("#showPasswordFrmEdit").click(function (e) {
+    e.preventDefault();
+    if (isEditPasswordShow) {
+      $("#editPassword").attr("type", "password");
+      $("#btnShowPasswordIcon").removeClass("bi-eye-fill");
+      $("#btnShowPasswordIcon").addClass("bi-eye-slash-fill");
+    } else {
+      $("#editPassword").attr("type", "text");
+      $("#btnShowPasswordIcon").removeClass("bi-eye-slash-fill");
+      $("#btnShowPasswordIcon").addClass("bi-eye-fill");
+    }
+    isEditPasswordShow = !isEditPasswordShow;
+  });
+
   // Restore File
   $(".btnRestoreFile").click(function (e) {
     e.preventDefault();
@@ -702,7 +718,7 @@ $(document).ready(function () {
 
   $("#frmAddTasksToAll").submit(function (e) {
     e.preventDefault();
-    
+
     var formData = new FormData($(this)[0]);
 
     $.ajax({

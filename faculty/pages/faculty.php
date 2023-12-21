@@ -152,7 +152,10 @@ include('../components/header.php');
                         </div>
                         <div class="mt-3">
                             <label for="editPassword">Password:</label>
-                            <input type="password" class="form-control" id="editPassword" name="editPassword" value="<?= $user['PASSWORD'] ?>">
+                            <div class="password-button-container">
+                                <input type="password" class="form-control" id="editPassword" name="editPassword" value="<?= $user['PASSWORD'] ?>">
+                                <button type="button" id="showPasswordFrmEdit" class="btn"><i class="bi bi-eye-slash-fill" id="btnShowPasswordIcon"></i></button>
+                            </div>
                         </div>
                         <div class="mt-4 d-flex justify-content-end">
                             <button type="submit" class="btn btn-dark">Save Changes</button>
