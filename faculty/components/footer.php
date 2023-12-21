@@ -395,12 +395,61 @@
 </div>
 <!-- Edit File Modal -->
 
-<footer class="footer bg-dark p-3">
-    <center>
-        <a href="#" class="m-5">Contact</a>
-        <a href="#" class="m-5">Privacy</a>
-        <a href="#" class="m-5">Terms of Use</a>
-    </center>
+<!-- User Guide -->
+<div class="modal" tabindex="-1" role="dialog" id="UserGuideModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-info-circle"></i> User Guide</h5>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <i>Inbox Page:</i>
+                    <ul>
+                        <li>
+                            <p class="text-secondary">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi magnam nam cumque fuga nulla rem corrupti in laborum ipsa a!</p>
+                        </li>
+                        <li>
+                            <p class="text-secondary">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi magnam nam cumque fuga nulla rem corrupti in laborum ipsa a!</p>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div>
+                    <i>Notification Page:</i>
+                    <ul>
+                        <li>
+                            <p class="text-secondary">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi magnam nam cumque fuga nulla rem corrupti in laborum ipsa a!</p>
+                        </li>
+                        <li>
+                            <p class="text-secondary">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi magnam nam cumque fuga nulla rem corrupti in laborum ipsa a!</p>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div>
+                    <i>Manage Account Page:</i>
+                    <ul>
+                        <li>
+                            <p class="text-secondary">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi magnam nam cumque fuga nulla rem corrupti in laborum ipsa a!</p>
+                        </li>
+                        <li>
+                            <p class="text-secondary">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi magnam nam cumque fuga nulla rem corrupti in laborum ipsa a!</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" id="btnCloseUserGuideModal" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of User Guide -->
+
+<footer class="footer bg-dark p-3 d-flex justify-content-between align-items-center">
+    <p class="text-light m-0"><i class="bi bi-c-circle"></i> 2023 - PRMSU COE-DMS - All Rights Reserved.</p>
+    <button id="showUserGuide" class="btn text-light"><i class="bi bi-info-circle"></i> User Guide</button>
 </footer>
 
 <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
