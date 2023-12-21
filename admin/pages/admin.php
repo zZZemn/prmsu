@@ -417,21 +417,13 @@ include('../components/header.php');
                         </tr>
                     <?php
                     }
-                    // else {
-                    ?>
-                    <!-- <tr>
-                            <td colspan="3">
-                                <center>No Folder Found</center>
-                            </td>
-                        </tr> -->
-                    <?php
-                    // }
+
                     $getFiles = $admin_db->getFileUsingFolderId($sectionId);
                     while ($file = $getFiles->fetch_assoc()) {
                     ?>
                         <tr>
                             <td>
-                                <a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $facultyId ?>&folder=<?= $folderId ?>&file=<?= $file['ID'] ?>" class="text-dark txt-folder-link">
+                                <a href="admin.php?section=<?= $sectionId ?>&file=<?= $file['ID'] ?>" class="text-dark txt-folder-link">
                                     <i class="bi bi-file-earmark"></i> <?= $file['DISPLAY_FILE_NAME'] ?>
                                 </a>
                             </td>
@@ -448,6 +440,15 @@ include('../components/header.php');
                                 <button class="btn btnEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
                                 <button class="btn btnDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
                                 <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    if ($getFaculty->num_rows == 0 && $getFiles->num_rows == 0) {
+                    ?>
+                        <tr>
+                            <td colspan="3">
+                                <center>No File Found</center>
                             </td>
                         </tr>
                     <?php
