@@ -69,12 +69,12 @@ if ($getUser->num_rows > 0) {
         <ul class="side-nav-ul list-group p-2">
             <li class="side-nav-li">
                 <a href="faculty.php?page=inbox" class="a-inbox <?= (isset($_GET['page']) && $_GET['page'] == 'inbox') ? 'side-nav-active' : '' ?>">
-                    <i class="bi bi-chat-dots-fill"></i> Inbox
+                    <i class="bi bi-chat-dots-fill"></i> Inbox <?= ($user['INBOX'] > 0) ? '<span class="badge badge-light bg-danger m-2" id="notificationCount">' . $user['INBOX'] . '</span>' : '' ?>
                 </a>
             </li>
             <li class="side-nav-li">
                 <a href="faculty.php?page=notification" class="a-inbox <?= (isset($_GET['page']) && $_GET['page'] == 'notification') ? 'side-nav-active' : '' ?>">
-                    Notification
+                    Notification <?= ($user['NOTIF'] > 0) ? '<span class="badge badge-light bg-danger m-2" id="notificationCount">' . $user['NOTIF'] . '</span>' : '' ?>
                 </a>
             </li>
 
