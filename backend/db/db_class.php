@@ -773,7 +773,8 @@ class admin_class extends db_connect
             if (is_uploaded_file($file_tmp)) {
                 if (move_uploaded_file($file_tmp, $destination)) {
                     $query = $this->conn->prepare("INSERT INTO `tasks`(`FOR_USER_ID`, `TASK_MESSAGE`, `TASK_FILE_NAME`, `TASK_DISPLAY_FILE_NAME`, `TASK_DATETIME`) VALUES ('$userId','$message','$newFileName','$file_name','$dateTime')");
-                    if ($query->execute()) {
+                    $addNotif = $this->conn->prepare("UPDATE `users` SET `NOTIF`= `NOTIF` + 1 WHERE `ID` = '$userId'");
+                    if ($query->execute() && $addNotif->execute()) {
                         return 200;
                     }
                 } else {
