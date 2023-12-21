@@ -68,15 +68,33 @@ if ($getUser->num_rows > 0) {
                 </ul>
             </span>
         </div>
+
+        <?php
+        $getMessagesCount = $admin_db->getNotificationCount('SENT_INBOX');
+        $getNotifCount = $admin_db->getNotificationCount('SENT_NOTIF');
+
+        $message = $getMessagesCount->fetch_assoc();
+        $notif = $getNotifCount->fetch_assoc();
+
+        $messageCount = $message['total'];
+        $notifCount = $notif['total'];
+        ?>
+
         <ul class="side-nav-ul list-group p-2">
             <li class="side-nav-li">
                 <a href="admin.php?page=inbox" class="a-inbox <?= (isset($_GET['page']) && $_GET['page'] == 'inbox') ? 'side-nav-active' : '' ?>">
                     <i class="bi bi-chat-dots-fill"></i> Inbox
+                    <?=
+                    ($messageCount > 0) ? '<span class="badge badge-light bg-danger m-2" id="notificationCount">' . $messageCount . '</span>' : ''
+                    ?>
                 </a>
             </li>
             <li class="side-nav-li">
                 <a href="admin.php?page=addTask" class="a-inbox <?= (isset($_GET['page']) && $_GET['page'] == 'addTask') ? 'side-nav-active' : '' ?>">
                     <i class="bi bi-plus"></i> Add Task
+                    <?=
+                    ($notifCount > 0) ? '<span class="badge badge-light bg-danger m-2" id="notificationCount">' . $notifCount . '</span>' : ''
+                    ?>
                 </a>
             </li>
             <?php

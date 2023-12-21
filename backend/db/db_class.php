@@ -841,6 +841,9 @@ class admin_class extends db_connect
                         }
                         $query->close();
                     }
+
+                    $addNotif = $this->conn->prepare("UPDATE `users` SET `NOTIF`= `NOTIF` + 1 WHERE `USER_TYPE` = 'faculty' AND `STATUS` = 'active'");
+                    $addNotif->execute();
                     return $returnCode;
                 } else {
                     return 'Uploading file unsuccessfull';
@@ -850,6 +853,16 @@ class admin_class extends db_connect
             }
         } else {
             return 'File is empty';
+        }
+    }
+
+    // Notification
+    public function getNotificationCount($column)
+    {
+        $query = $this->conn->prepare("SELECT COUNT(*) as total FROM `users` WHERE `$column` > 0");
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
         }
     }
 }

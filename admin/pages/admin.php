@@ -443,7 +443,11 @@ include('../components/header.php');
                     if ($getUsers->num_rows > 0) {
                         while ($user = $getUsers->fetch_assoc()) {
                     ?>
-                            <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=inbox&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['F_NAME'] . ' ' . $user['MI'] . ' ' . $user['L_NAME'] . ' ' . $user['SUFFIX'] ?></a></li>
+                            <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=inbox&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['F_NAME'] . ' ' . $user['MI'] . ' ' . $user['L_NAME'] . ' ' . $user['SUFFIX'] ?></a>
+                                <?=
+                                ($user['SENT_INBOX'] > 0) ? '<span class="badge badge-light bg-danger" id="notificationCount">' . $user['SENT_INBOX'] . '</span>' : ''
+                                ?>
+                            </li>
                         <?php
                         }
                     } else {
@@ -462,6 +466,7 @@ include('../components/header.php');
                 if (isset($_GET['user'])) {
                     $checkUser = $db->getUser($_GET['user']);
                     if ($checkUser->num_rows > 0) {
+                        $db->readNotif('SENT_INBOX', $_GET['user'])
                 ?>
                         <input type="hidden" id="adminId" value="<?= $_SESSION['user_id'] ?>">
                         <input type="hidden" id="userId" value="<?= $_GET['user'] ?>">
@@ -652,7 +657,11 @@ include('../components/header.php');
                         if ($getUsers->num_rows > 0) {
                             while ($user = $getUsers->fetch_assoc()) {
                         ?>
-                                <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=addTask&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['F_NAME'] . ' ' . $user['MI'] . ' ' . $user['L_NAME'] . ' ' . $user['SUFFIX'] ?></a></li>
+                                <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=addTask&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['F_NAME'] . ' ' . $user['MI'] . ' ' . $user['L_NAME'] . ' ' . $user['SUFFIX'] ?></a>
+                                    <?=
+                                    ($user['SENT_NOTIF'] > 0) ? '<span class="badge badge-light bg-danger" id="notificationCount">' . $user['SENT_NOTIF'] . '</span>' : ''
+                                    ?>
+                                </li>
                             <?php
                             }
                         } else {
@@ -670,6 +679,7 @@ include('../components/header.php');
                         $userId = $_GET['user'];
                         $checkUser = $db->getUser($userId);
                         if ($checkUser->num_rows > 0) {
+                            $db->readNotif('SENT_NOTIF', $userId);
                     ?>
                             <button class="btn btn-primary btn-add-new-user" id="btnOpenAddTask" data-id="<?= $userId ?>"><i class="bi bi-bookmark-plus"></i> Add Task</button>
                             <div class="tasks-container container mt-2">
