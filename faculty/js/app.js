@@ -262,6 +262,13 @@ $(document).ready(function () {
     $("#addFileModal").modal("show");
   });
 
+  //
+  $("#btnAddFileOne").click(function (e) {
+    e.preventDefault();
+    $("#FolderToBeAdd").val($(this).data("id"));
+    $("#addFileModal").modal("show");
+  });
+
   $("#btnCloseAddFileModal").click(function (e) {
     e.preventDefault();
     closeModal("addFileModal");

@@ -244,7 +244,6 @@ include('../components/header.php');
                                     </div>
                                 </div>
                             </div>
-                            </div>
                         <?php
                         } else {
                             backToAdminMain();
@@ -280,7 +279,7 @@ include('../components/header.php');
                                         $formattedDateTime = $dateTime->format('F j, Y g:i a');
                                 ?>
                                         <tr>
-                                            <td><a href="faculty.php?page=folders&folder=<?= $folderId ?>&file=<?= $file['ID'] ?>" class="text-dark txt-folder-link"><?= $file['DISPLAY_FILE_NAME'] ?></a></td>
+                                            <td><i class="bi bi-file-earmark"></i> <a href="faculty.php?page=folders&folder=<?= $folderId ?>&file=<?= $file['ID'] ?>" class="text-dark txt-folder-link"><?= $file['DISPLAY_FILE_NAME'] ?></a></td>
                                             <td><?= $formattedDateTime ?></td>
                                             <td>
                                                 <button class="btn btnFacultyEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
@@ -302,40 +301,98 @@ include('../components/header.php');
                                 ?>
                             </table>
                         </div>
-                <?php
+                    <?php
                     }
                 } else {
                     backToAdminMain();
                 }
             } else {
-                ?>
-                <!-- End Page Title -->
-                <div class="pagetitle mt-3 d-flex justify-content-between">
-                    <nav>
-                        <ol class="breadcrumb">
-                            <!-- <li class="breadcrumb-item"><a href="Faculty.php">Home</a></li> -->
-                        </ol>
-                    </nav>
-                    <button class="btn btn-dark" id="btnAddFolder" data-id="<?= $folderId ?>">New Folder</button>
-                </div>
-                <!-- End Page Title -->
-                <div class="">
-                    <table class="table">
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                        <?php
-                        $getFacultyFolders = $db->getFolders($user_id);
-                        if ($getFacultyFolders->num_rows > 0) {
+                if (isset($_GET['file'])) {
+                    $getFile = $db->getFilesUsingFileId($_GET['file']);
+                    if ($getFile->num_rows > 0) {
+                        $file = $getFile->fetch_assoc();
+                        $dateTimeString = $file['DATETIME'];
+                        $dateTime = new DateTime($dateTimeString);
+                        $formattedDateTime = $dateTime->format('F j, Y g:i a');
+
+                    ?>
+                        <div class="pagetitle mt-3 d-flex justify-content-between">
+                            <nav>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="faculty.php">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="faculty.php?page=folders">Folders</a></li>
+                                    <li class="breadcrumb-item"><?= $file['DISPLAY_FILE_NAME'] ?></li>
+                                </ol>
+                            </nav>
+                            <!-- <button class="btn btn-dark" id="btnAddFile" data-id="<?= $folderId ?>">New File</button> -->
+                            <input type="hidden" id="currentFolderId" value="<?= $folderId ?>">
+                        </div>
+                        <div class="">
+                            <div class="container file-main-container p-3 pt-5 pb-5 card">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="hightlight-color"><i class="bi bi-file-earmark-fill"></i><?= $file['DISPLAY_FILE_NAME'] ?></h4>
+                                    <div>
+                                        <button class="btn btnFacultyEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
+                                        <button class="btn btnFacultyDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
+                                        <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <h6 class="hightlight-color">Notes:</h6>
+                                    <textarea class="form-control" readonly><?= $file['NOTES'] ?></textarea>
+                                </div>
+                                <div class="mt-3">
+                                    <h6 class="hightlight-color">Tags:</h6>
+                                    <textarea class="form-control" readonly><?= $file['TAGS'] ?></textarea>
+                                </div>
+
+                                <div class="d-flex mt-3">
+                                    <div class="">
+                                        <h6 class="hightlight-color">Document ID</h6>
+                                        <input type="text" class="form-control" value="<?= $file['ID'] ?>">
+                                    </div>
+                                    <div class="file-date-container">
+                                        <h6 class="hightlight-color">Date</h6>
+                                        <input type="text" class="form-control" value="<?= $formattedDateTime ?>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                    } else {
+                        backToAdminMain();
+                    }
+                } else {
+                    ?>
+                    <!-- End Page Title -->
+                    <div class="pagetitle mt-3 d-flex justify-content-between">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <!-- <li class="breadcrumb-item"><a href="Faculty.php">Home</a></li> -->
+                            </ol>
+                        </nav>
+                        <div>
+                            <button class="btn btn-dark" id="btnAddFileOne" data-id="<?= $user_id ?>">New File</button>
+                            <button class="btn btn-dark" id="btnAddFolder" data-id="<?= $folderId ?>">New Folder</button>
+                        </div>
+                    </div>
+                    <!-- End Page Title -->
+                    <div class="">
+                        <table class="table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                            <?php
+                            $getFacultyFolders = $db->getFolders($user_id);
                             while ($folder = $getFacultyFolders->fetch_assoc()) {
                                 $dateTimeString = $folder['DATETIME'];
                                 $dateTime = new DateTime($dateTimeString);
                                 $formattedDateTime = $dateTime->format('F j, Y g:i a');
-                        ?>
+                            ?>
                                 <tr>
-                                    <td><a href="faculty.php?page=folders&folder=<?= $folder['ID'] ?>" class="text-dark txt-folder-link"><?= $folder['FOLDER_NAME'] ?></a></td>
+                                    <td><i class="bi bi-files-alt"></i> <a href="faculty.php?page=folders&folder=<?= $folder['ID'] ?>" class="text-dark txt-folder-link"><?= $folder['FOLDER_NAME'] ?></a></td>
                                     <td><?= $formattedDateTime ?></td>
                                     <td>
                                         <button class="btn btnEditFolder" data-id="<?= $folder['ID'] ?>" data-name="<?= $folder['FOLDER_NAME'] ?>"><i class="bi bi-pencil"></i></button>
@@ -344,19 +401,30 @@ include('../components/header.php');
                                 </tr>
                             <?php
                             }
-                        } else {
+
+
+                            $checkFiles = $db->getFilesUsingFolderId($user_id);
+                            while ($file = $checkFiles->fetch_assoc()) {
+                                $dateTimeString = $file['DATETIME'];
+                                $dateTime = new DateTime($dateTimeString);
+                                $formattedDateTime = $dateTime->format('F j, Y g:i a');
                             ?>
-                            <tr>
-                                <td colspan="3">
-                                    <center>No Folder Found</center>
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                        ?>
-                    </table>
-                </div>
+                                <tr>
+                                    <td><i class="bi bi-file-earmark"></i> <a href="faculty.php?page=folders&file=<?= $file['ID'] ?>" class="text-dark txt-folder-link"><?= $file['DISPLAY_FILE_NAME'] ?></a></td>
+                                    <td><?= $formattedDateTime ?></td>
+                                    <td>
+                                        <button class="btn btnFacultyEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
+                                        <button class="btn btnFacultyDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
+                                        <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </table>
+                    </div>
             <?php
+                }
             }
         } elseif ($_GET['page'] == 'RecycleBin') {
             ?>
