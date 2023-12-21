@@ -137,9 +137,23 @@ include('../components/header.php');
                     $user = $checkUser->fetch_assoc();
                 ?>
                     <form id="frmEditUser">
-                        <div class="mt-5">
-                            <label for="editName">Name:</label>
-                            <input type="text" class="form-control" id="editName" name="editName" value="<?= $user['NAME'] ?>">
+                        <div class="mt-5 d-flex">
+                            <div class="container-fluid p-0">
+                                <label for="editFName">First Name:</label>
+                                <input type="text" class="form-control" id="editFName" name="editFName" value="<?= $user['F_NAME'] ?>">
+                            </div>
+                            <div class="container-fluid p-0" style="margin-left: 10px;">
+                                <label for="editLName">Last Name:</label>
+                                <input type="text" class="form-control" id="editLName" name="editLName" value="<?= $user['L_NAME'] ?>">
+                            </div>
+                            <div class="container-fluid p-0" style="margin-left: 10px; width: 100px;">
+                                <label for="editMI">MI:</label>
+                                <input type="text" class="form-control" id="editMI" name="editMI" value="<?= $user['MI'] ?>">
+                            </div>
+                            <div class="container-fluid p-0" style="margin-left: 10px; width: 150px;">
+                                <label for="editSuffix">Suffix:</label>
+                                <input type="text" class="form-control" id="editSuffix" name="editSuffix" value="<?= $user['SUFFIX'] ?>">
+                            </div>
                         </div>
 
                         <div class="mt-3">

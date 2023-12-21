@@ -75,12 +75,17 @@ class global_class extends db_connect
     public function facultyEditAccount($post)
     {
         $userId = $post['userId'];
-        $name = $post['name'];
+
+        $fname = $post['fname'];
+        $lname = $post['lname'];
+        $mi = $post['mi'];
+        $suffix = $post['suffix'];
+
         $email = $post['email'];
         $username = $post['username'];
         $password = $post['password'];
 
-        $query = $this->conn->prepare("UPDATE `users` SET `NAME`='$name',`EMAIL`='$email',`USERNAME`='$username',`PASSWORD`='$password' WHERE `ID` = '$userId'");
+        $query = $this->conn->prepare("UPDATE `users` SET `F_NAME`='$fname',`L_NAME`='$lname',`MI`='$mi',`SUFFIX`='$suffix' ,`EMAIL`='$email',`USERNAME`='$username',`PASSWORD` = '$password' WHERE `ID` = '$userId'");
         if ($query->execute()) {
             return 200;
         }

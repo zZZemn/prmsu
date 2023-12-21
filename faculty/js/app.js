@@ -96,7 +96,13 @@ $(document).ready(function () {
     e.preventDefault();
     var userId = $("#userId").val();
     var name = $("#editName").val();
+
     var email = $("#editEmail").val();
+    var fname = $("#editFName").val();
+    var lname = $("#editLName").val();
+    var mi = $("#editMI").val();
+    var suffix = $("#editSuffix").val();
+
     var username = $("#editUsername").val();
     var password = $("#editPassword").val();
 
@@ -106,7 +112,10 @@ $(document).ready(function () {
       data: {
         submitType: "FacultyEditAccount",
         userId: userId,
-        name: name,
+        fname: fname,
+        lname: lname,
+        mi: mi,
+        suffix: suffix,
         email: email,
         username: username,
         password: password,
