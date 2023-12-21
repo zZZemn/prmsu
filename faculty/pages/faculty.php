@@ -346,7 +346,7 @@ include('../components/header.php');
                         } else {
                             ?>
                             <tr>
-                                <td>
+                                <td colspan="3">
                                     <center>No Folder Found</center>
                                 </td>
                             </tr>
