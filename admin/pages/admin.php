@@ -376,7 +376,10 @@ include('../components/header.php');
                         <li class="breadcrumb-item"><?= $section['SECTION_NAME'] ?></li>
                     </ol>
                 </nav>
-                <button class="btn btn-dark" id="btnAddFacultyFolder" data-id="<?= $sectionId ?>">New Folder</button>
+                <div>
+                    <button class="btn btn-dark" id="btnAddFile" data-id="<?= $sectionId ?>">New File</button>
+                    <button class="btn btn-dark" id="btnAddFacultyFolder" data-id="<?= $sectionId ?>">New Folder</button>
+                </div>
             </div>
             <!-- End Page Title -->
 
@@ -389,37 +392,62 @@ include('../components/header.php');
                     </tr>
                     <?php
                     $getFaculty = $admin_db->getFacultyUsingSectionId($sectionId);
-                    if ($getFaculty->num_rows > 0) {
-                        while ($faculty = $getFaculty->fetch_assoc()) {
+                    while ($faculty = $getFaculty->fetch_assoc()) {
                     ?>
-                            <tr>
-                                <td>
-                                    <a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $faculty['ID'] ?>" class="text-dark txt-folder-link">
-                                        <i class="bi bi-file-earmark"></i> <?= $faculty['FACULTY_NAME'] ?>
-                                    </a>
-                                </td>
-                                <td>
-                                    <?php
-                                    $dateTimeString = $faculty['DATETIME'];
-                                    $dateTime = new DateTime($dateTimeString);
-                                    $formattedDateTime = $dateTime->format('F j, Y g:i a'); // Format as "Month day, Year Hour:Minute AM/PM"
-
-                                    echo $formattedDateTime;
-                                    ?>
-                                </td>
-                                <td>
-                                    <button class="btn btnEditFaculty" data-id="<?= $faculty['ID'] ?>" data-name="<?= $faculty['FACULTY_NAME'] ?>"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btnDeleteFaculty" data-id="<?= $faculty['ID'] ?>"><i class="bi bi-trash"></i></button>
-                                    <!-- <button class="btn btnDownloadFaculty"><i class="bi bi-box-arrow-down"></i></button> -->
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                    } else {
-                        ?>
                         <tr>
+                            <td>
+                                <a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $faculty['ID'] ?>" class="text-dark txt-folder-link">
+                                    <i class="bi bi-files-alt"></i> <?= $faculty['FACULTY_NAME'] ?>
+                                </a>
+                            </td>
+                            <td>
+                                <?php
+                                $dateTimeString = $faculty['DATETIME'];
+                                $dateTime = new DateTime($dateTimeString);
+                                $formattedDateTime = $dateTime->format('F j, Y g:i a'); // Format as "Month day, Year Hour:Minute AM/PM"
+
+                                echo $formattedDateTime;
+                                ?>
+                            </td>
+                            <td>
+                                <button class="btn btnEditFaculty" data-id="<?= $faculty['ID'] ?>" data-name="<?= $faculty['FACULTY_NAME'] ?>"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btnDeleteFaculty" data-id="<?= $faculty['ID'] ?>"><i class="bi bi-trash"></i></button>
+                                <!-- <button class="btn btnDownloadFaculty"><i class="bi bi-box-arrow-down"></i></button> -->
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    // else {
+                    ?>
+                    <!-- <tr>
                             <td colspan="3">
                                 <center>No Folder Found</center>
+                            </td>
+                        </tr> -->
+                    <?php
+                    // }
+                    $getFiles = $admin_db->getFileUsingFolderId($sectionId);
+                    while ($file = $getFiles->fetch_assoc()) {
+                    ?>
+                        <tr>
+                            <td>
+                                <a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $facultyId ?>&folder=<?= $folderId ?>&file=<?= $file['ID'] ?>" class="text-dark txt-folder-link">
+                                    <i class="bi bi-file-earmark"></i> <?= $file['DISPLAY_FILE_NAME'] ?>
+                                </a>
+                            </td>
+                            <td>
+                                <?php
+                                $dateTimeString = $file['DATETIME'];
+                                $dateTime = new DateTime($dateTimeString);
+                                $formattedDateTime = $dateTime->format('F j, Y g:i a'); // Format as "Month day, Year Hour:Minute AM/PM"
+
+                                echo $formattedDateTime;
+                                ?>
+                            </td>
+                            <td>
+                                <button class="btn btnEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btnDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
+                                <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
                             </td>
                         </tr>
                     <?php

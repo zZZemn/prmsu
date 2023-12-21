@@ -397,7 +397,6 @@ $(document).ready(function () {
     e.preventDefault();
 
     var formData = new FormData($(this)[0]);
-
     $.ajax({
       type: "POST",
       url: "../../backend/endpoints/admin/post-submit.php",
