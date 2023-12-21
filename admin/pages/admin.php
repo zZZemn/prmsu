@@ -4,178 +4,171 @@ include('../components/header.php');
 <main class="main-container container bg-light">
     <?php
     if (isset($_GET['file'])) {
+        $fileId = $_GET['file'];
         if (isset($_GET['folder'])) {
-            if (isset($_GET['faculty'])) {
-                if (isset($_GET['section'])) {
-                    $sectionId = $_GET['section'];
-                    $facultyId = $_GET['faculty'];
-                    $folderId = $_GET['folder'];
-                    $fileId = $_GET['file'];
-
-                    $getSections = $admin_db->getSectionsId($sectionId);
-                    if ($getSections->num_rows > 0) {
-                        $section = $getSections->fetch_assoc();
-
-                        $getFaculty = $admin_db->getFaculty($facultyId);
-                        if ($getFaculty->num_rows > 0) {
-                            $faculty = $getFaculty->fetch_assoc();
-
-                            $getFilesFolder = $admin_db->getFileFolder($folderId);
-                            if ($getFilesFolder->num_rows > 0) {
-                                $filesFolder = $getFilesFolder->fetch_assoc();
-
-                                $getFile = $admin_db->getFile($fileId);
-                                if ($getFile->num_rows > 0) {
-                                    $file = $getFile->fetch_assoc();
-                                    $dateTimeString = $file['DATETIME'];
-                                    $dateTime = new DateTime($dateTimeString);
-                                    $formattedDateTime = $dateTime->format('F j, Y g:i a');
-    ?>
-                                    <!-- File -->
-                                    <!-- End Page Title -->
-                                    <div class="pagetitle mt-3 d-flex justify-content-between">
-                                        <nav>
-                                            <ol class="breadcrumb">
-                                                <li class="breadcrumb-item"><a href="admin.php">Home</a></li>
-                                                <li class="breadcrumb-item"><a href="admin.php?section=<?= $sectionId ?>"><?= $section['SECTION_NAME'] ?></a></li>
-                                                <li class="breadcrumb-item"><a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $facultyId ?>"><?= $faculty['FACULTY_NAME'] ?></a></li>
-                                                <li class="breadcrumb-item"><a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $facultyId ?>&folder=<?= $folderId ?>"><?= $filesFolder['FOLDER_NAME'] ?></a></li>
-                                                <li class="breadcrumb-item"><?= $file['DISPLAY_FILE_NAME'] ?></li>
-                                            </ol>
-                                        </nav>
-                                        <!-- <button class="btn btn-dark" id="btnAddFile" data-id="<?= $folderId ?>">New File</button> -->
-                                    </div>
-                                    <!-- End Page Title -->
-                                    <div class="">
-                                        <div class="container file-main-container p-3 pt-5 pb-5 card">
-                                            <div class="d-flex justify-content-between">
-                                                <h4 class="hightlight-color"><i class="bi bi-file-earmark-fill"></i><?= $file['DISPLAY_FILE_NAME'] ?></h4>
-                                                <div>
-                                                    <button class="btn btnEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
-                                                    <button class="btn btnDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
-                                                    <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4">
-                                                <h6 class="hightlight-color">Notes:</h6>
-                                                <textarea class="form-control" readonly><?= $file['NOTES'] ?></textarea>
-                                            </div>
-                                            <div class="mt-3">
-                                                <h6 class="hightlight-color">Tags:</h6>
-                                                <textarea class="form-control" readonly><?= $file['TAGS'] ?></textarea>
-                                            </div>
-
-                                            <div class="d-flex mt-3">
-                                                <div class="">
-                                                    <h6 class="hightlight-color">Document ID</h6>
-                                                    <input type="text" class="form-control" value="<?= $file['ID'] ?>">
-                                                </div>
-                                                <div class="file-date-container">
-                                                    <h6 class="hightlight-color">Date</h6>
-                                                    <input type="text" class="form-control" value="<?= $formattedDateTime ?>">
-                                                </div>
-                                            </div>
-
-                                            <hr class="mt-5">
-
-                                            <div class="mt-4">
-                                                <h6 class="hightlight-color">Shared To</h6>
-                                                <ul class="list-group">
-                                                    <?php
-                                                    $getSharedFiles = $admin_db->getSharedFilesJoinUsers($fileId);
-                                                    if ($getSharedFiles->num_rows > 0) {
-                                                        while ($sharedFile = $getSharedFiles->fetch_assoc()) {
-                                                    ?>
-                                                            <li class="list-group-item"><?= $sharedFile['F_NAME'] . ' ' . $sharedFile['MI'] . ' ' . $sharedFile['L_NAME'] . ' ' . $sharedFile['SUFFIX'] ?></li>
-                                                        <?php
-                                                        }
-                                                    } else {
-                                                        ?>
-                                                        <li class="list-group-item">You don't share this files to anyone.</li>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                    <li class="list-group-item">
-                                                        <h6>Share This File: </h6>
-                                                        <div class="d-flex">
-                                                            <input type="hidden" id="hiddenFileId" value="<?= $fileId ?>">
-                                                            <select id="sharedFileTo" class="form-control m-1">
-                                                                <option value=""></option>
-                                                                <?php
-                                                                $getFaculty = $db->getFacultyUsers();
-                                                                if ($getFaculty->num_rows > 0) {
-                                                                    while ($facultyPerson = $getFaculty->fetch_assoc()) {
-                                                                        $facultyPersonId = $facultyPerson['ID'];
-                                                                        $checkSharedFiled = $admin_db->checkSharedFiled($facultyPersonId, $fileId);
-                                                                        echo ($checkSharedFiled->num_rows > 0) ? '' : '<option value="' . $facultyPerson['ID'] . '">' . $facultyPerson['F_NAME'] . ' ' . $facultyPerson['MI'] . ' ' . $facultyPerson['L_NAME'] . ' ' . $facultyPerson['SUFFIX'] . '</option>';
-                                                                    }
-                                                                }
-                                                                ?>
-                                                            </select>
-                                                            <button type="button" class="btn btn-dark m-1" id="btnShareFile">Share</button>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                            <hr class="mt-5">
-
-                                            <div class="mt-4">
-                                                <h6 class="hightlight-color">Audit Log</h6>
-                                                <table class="table">
-                                                    <tr>
-                                                        <th>Time</th>
-                                                        <th>User</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <?php
-                                                        $getAuditLog = $admin_db->getAuditLog($fileId);
-                                                        if ($getAuditLog->num_rows > 0) {
-                                                            while ($audit = $getAuditLog->fetch_assoc()) {
-                                                        ?>
-                                                    <tr>
-                                                        <td><?= $audit['DATE_TIME'] ?></td>
-                                                        <td><?= $audit['USER_ID'] ?></td>
-                                                        <td><?= $audit['ACTION'] ?></td>
-                                                    </tr>
-                                                <?php
-                                                            }
-                                                        } else {
-                                                ?>
-                                                <tr>
-                                                    <td colspan="3">
-                                                        <center>No Audit Yet</center>
-                                                    </td>
-                                                </tr>
-                                            <?php
-                                                        }
-                                            ?>
-                                            </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End of File -->
-                            <?php
-                                } else {
-                                    backToAdminMain();
-                                }
-                            } else {
-                                backToAdminMain();
-                            }
-                        } else {
-                            backToAdminMain();
-                        }
-                    } else {
-                        backToAdminMain();
-                    }
-                } else {
-                    backToAdminMain();
-                }
+            $folderId = $_GET['folder'];
+            $getFilesFolder = $admin_db->getFileFolder($folderId);
+            if ($getFilesFolder->num_rows > 0) {
+                $filesFolder = $getFilesFolder->fetch_assoc();
             } else {
                 backToAdminMain();
             }
+        }
+        if (isset($_GET['faculty'])) {
+            $facultyId = $_GET['faculty'];
+            $getFaculty = $admin_db->getFaculty($facultyId);
+            if ($getFaculty->num_rows > 0) {
+                $faculty = $getFaculty->fetch_assoc();
+            } else {
+                backToAdminMain();
+            }
+        }
+
+        if (isset($_GET['section'])) {
+            $sectionId = $_GET['section'];
+            $getSections = $admin_db->getSectionsId($sectionId);
+            if ($getSections->num_rows > 0) {
+                $section = $getSections->fetch_assoc();
+            } else {
+                backToAdminMain();
+            }
+        }
+
+        $getFile = $admin_db->getFile($fileId);
+        if ($getFile->num_rows > 0) {
+            $file = $getFile->fetch_assoc();
+            $dateTimeString = $file['DATETIME'];
+            $dateTime = new DateTime($dateTimeString);
+            $formattedDateTime = $dateTime->format('F j, Y g:i a');
+
+    ?>
+            <!-- File -->
+            <!-- End Page Title -->
+            <div class="pagetitle mt-3 d-flex justify-content-between">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="admin.php">Home</a></li>
+                        <?= (isset($_GET['section']) ? '<li class="breadcrumb-item"><a href="admin.php?section=' . $sectionId . '">' . $section['SECTION_NAME'] . '</a></li>' : '') ?>
+                        <?= (isset($_GET['faculty']) ? '<li class="breadcrumb-item"><a href="admin.php?section=' . $sectionId . '&faculty=' . $facultyId . '">' . $faculty['FACULTY_NAME'] . '</a></li>' : '') ?>
+                        <?= (isset($_GET['folder']) ? '<li class="breadcrumb-item"><a href="admin.php?section=' . $sectionId . '&faculty=' . $facultyId . '&folder=' . $folderId . '">' . $filesFolder['FOLDER_NAME'] . '</a></li>' : '') ?>
+                        <li class="breadcrumb-item"><?= $file['DISPLAY_FILE_NAME'] ?></li>
+                    </ol>
+                </nav>
+                <!-- <button class="btn btn-dark" id="btnAddFile" data-id="<?= $folderId ?>">New File</button> -->
+            </div>
+            <!-- End Page Title -->
+            <div class="">
+                <div class="container file-main-container p-3 pt-5 pb-5 card">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="hightlight-color"><i class="bi bi-file-earmark-fill"></i><?= $file['DISPLAY_FILE_NAME'] ?></h4>
+                        <div>
+                            <button class="btn btnEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btnDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
+                            <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="hightlight-color">Notes:</h6>
+                        <textarea class="form-control" readonly><?= $file['NOTES'] ?></textarea>
+                    </div>
+                    <div class="mt-3">
+                        <h6 class="hightlight-color">Tags:</h6>
+                        <textarea class="form-control" readonly><?= $file['TAGS'] ?></textarea>
+                    </div>
+
+                    <div class="d-flex mt-3">
+                        <div class="">
+                            <h6 class="hightlight-color">Document ID</h6>
+                            <input type="text" class="form-control" value="<?= $file['ID'] ?>">
+                        </div>
+                        <div class="file-date-container">
+                            <h6 class="hightlight-color">Date</h6>
+                            <input type="text" class="form-control" value="<?= $formattedDateTime ?>">
+                        </div>
+                    </div>
+
+                    <hr class="mt-5">
+
+                    <div class="mt-4">
+                        <h6 class="hightlight-color">Shared To</h6>
+                        <ul class="list-group">
+                            <?php
+                            $getSharedFiles = $admin_db->getSharedFilesJoinUsers($fileId);
+                            if ($getSharedFiles->num_rows > 0) {
+                                while ($sharedFile = $getSharedFiles->fetch_assoc()) {
+                            ?>
+                                    <li class="list-group-item"><?= $sharedFile['F_NAME'] . ' ' . $sharedFile['MI'] . ' ' . $sharedFile['L_NAME'] . ' ' . $sharedFile['SUFFIX'] ?></li>
+                                <?php
+                                }
+                            } else {
+                                ?>
+                                <li class="list-group-item">You don't share this files to anyone.</li>
+                            <?php
+                            }
+                            ?>
+                            <li class="list-group-item">
+                                <h6>Share This File: </h6>
+                                <div class="d-flex">
+                                    <input type="hidden" id="hiddenFileId" value="<?= $fileId ?>">
+                                    <select id="sharedFileTo" class="form-control m-1">
+                                        <option value=""></option>
+                                        <?php
+                                        $getFaculty = $db->getFacultyUsers();
+                                        if ($getFaculty->num_rows > 0) {
+                                            while ($facultyPerson = $getFaculty->fetch_assoc()) {
+                                                $facultyPersonId = $facultyPerson['ID'];
+                                                $checkSharedFiled = $admin_db->checkSharedFiled($facultyPersonId, $fileId);
+                                                echo ($checkSharedFiled->num_rows > 0) ? '' : '<option value="' . $facultyPerson['ID'] . '">' . $facultyPerson['F_NAME'] . ' ' . $facultyPerson['MI'] . ' ' . $facultyPerson['L_NAME'] . ' ' . $facultyPerson['SUFFIX'] . '</option>';
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                    <button type="button" class="btn btn-dark m-1" id="btnShareFile">Share</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <hr class="mt-5">
+
+                    <div class="mt-4">
+                        <h6 class="hightlight-color">Audit Log</h6>
+                        <table class="table">
+                            <tr>
+                                <th>Time</th>
+                                <th>User</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr>
+                                <?php
+                                $getAuditLog = $admin_db->getAuditLog($fileId);
+                                if ($getAuditLog->num_rows > 0) {
+                                    while ($audit = $getAuditLog->fetch_assoc()) {
+                                ?>
+                            <tr>
+                                <td><?= $audit['DATE_TIME'] ?></td>
+                                <td><?= $audit['USER_ID'] ?></td>
+                                <td><?= $audit['ACTION'] ?></td>
+                            </tr>
+                        <?php
+                                    }
+                                } else {
+                        ?>
+                        <tr>
+                            <td colspan="3">
+                                <center>No Audit Yet</center>
+                            </td>
+                        </tr>
+                    <?php
+                                }
+                    ?>
+                    </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- End of File -->
+            <?php
         } else {
             backToAdminMain();
         }
@@ -195,7 +188,7 @@ include('../components/header.php');
                         $getFilesFolder = $admin_db->getFileFolder($folderId);
                         if ($getFilesFolder->num_rows > 0) {
                             $filesFolder = $getFilesFolder->fetch_assoc();
-                            ?>
+            ?>
                             <!-- Files Folder -->
                             <!-- End Page Title -->
                             <div class="pagetitle mt-3 d-flex justify-content-between">
@@ -208,6 +201,7 @@ include('../components/header.php');
                                     </ol>
                                 </nav>
                                 <button class="btn btn-dark" id="btnAddFile" data-id="<?= $folderId ?>">New File</button>
+
                             </div>
                             <!-- End Page Title -->
 
@@ -297,7 +291,10 @@ include('../components/header.php');
                                 <li class="breadcrumb-item"><?= $faculty['FACULTY_NAME'] ?></li>
                             </ol>
                         </nav>
-                        <button class="btn btn-dark" id="btnAddFileFolder" data-id="<?= $facultyId ?>">New Folder</button>
+                        <div>
+                            <button class="btn btn-dark" id="btnAddFile" data-id="<?= $facultyId ?>">New File</button>
+                            <button class="btn btn-dark" id="btnAddFileFolder" data-id="<?= $facultyId ?>">New Folder</button>
+                        </div>
                     </div>
                     <!-- End Page Title -->
 
@@ -310,37 +307,64 @@ include('../components/header.php');
                             </tr>
                             <?php
                             $getFilesFolder = $admin_db->getFilesFolderUsingFacultyId($facultyId);
-                            if ($getFilesFolder->num_rows > 0) {
-                                while ($filesFolder = $getFilesFolder->fetch_assoc()) {
+                            while ($filesFolder = $getFilesFolder->fetch_assoc()) {
                             ?>
-                                    <tr>
-                                        <td>
-                                            <a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $faculty['ID'] ?>&folder=<?= $filesFolder['ID'] ?>" class="text-dark txt-folder-link">
-                                                <i class="bi bi-file-earmark"></i> <?= $filesFolder['FOLDER_NAME'] ?>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <?php
-                                            $dateTimeString = $filesFolder['DATETIME'];
-                                            $dateTime = new DateTime($dateTimeString);
-                                            $formattedDateTime = $dateTime->format('F j, Y g:i a'); // Format as "Month day, Year Hour:Minute AM/PM"
+                                <tr>
+                                    <td>
+                                        <a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $faculty['ID'] ?>&folder=<?= $filesFolder['ID'] ?>" class="text-dark txt-folder-link">
+                                            <i class="bi bi-files-alt"></i> <?= $filesFolder['FOLDER_NAME'] ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $dateTimeString = $filesFolder['DATETIME'];
+                                        $dateTime = new DateTime($dateTimeString);
+                                        $formattedDateTime = $dateTime->format('F j, Y g:i a'); // Format as "Month day, Year Hour:Minute AM/PM"
 
-                                            echo $formattedDateTime;
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <button class="btn btnEditFileFolder" data-id="<?= $filesFolder['ID'] ?>" data-name="<?= $filesFolder['FOLDER_NAME'] ?>"><i class="bi bi-pencil"></i></button>
-                                            <button class="btn btnDeleteFileFolder" data-id="<?= $filesFolder['ID'] ?>"><i class="bi bi-trash"></i></button>
-                                            <!-- <button class="btn btnDownloadFileFolder"><i class="bi bi-box-arrow-down"></i></button> -->
-                                        </td>
-                                    </tr>
-                                <?php
-                                }
-                            } else {
-                                ?>
+                                        echo $formattedDateTime;
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <button class="btn btnEditFileFolder" data-id="<?= $filesFolder['ID'] ?>" data-name="<?= $filesFolder['FOLDER_NAME'] ?>"><i class="bi bi-pencil"></i></button>
+                                        <button class="btn btnDeleteFileFolder" data-id="<?= $filesFolder['ID'] ?>"><i class="bi bi-trash"></i></button>
+                                        <!-- <button class="btn btnDownloadFileFolder"><i class="bi bi-box-arrow-down"></i></button> -->
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+
+                            $getFiles = $admin_db->getFileUsingFolderId($facultyId);
+                            while ($file = $getFiles->fetch_assoc()) {
+                            ?>
+                                <tr>
+                                    <td>
+                                        <a href="admin.php?section=<?= $sectionId ?>&faculty=<?= $facultyId ?>&file=<?= $file['ID'] ?>" class="text-dark txt-folder-link">
+                                            <i class="bi bi-file-earmark"></i> <?= $file['DISPLAY_FILE_NAME'] ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $dateTimeString = $file['DATETIME'];
+                                        $dateTime = new DateTime($dateTimeString);
+                                        $formattedDateTime = $dateTime->format('F j, Y g:i a'); // Format as "Month day, Year Hour:Minute AM/PM"
+
+                                        echo $formattedDateTime;
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <button class="btn btnEditFile" data-id="<?= $file['ID'] ?>" data-name="<?= $file['DISPLAY_FILE_NAME'] ?>" data-notes="<?= $file['NOTES'] ?>" data-tags="<?= $file['TAGS'] ?>"><i class="bi bi-pencil"></i></button>
+                                        <button class="btn btnDeleteFile" data-id="<?= $file['ID'] ?>"><i class="bi bi-trash"></i></button>
+                                        <a class="btn" href="../../backend/filesFolder/<?= $file['FILE_NAME'] ?>" download><i class="bi bi-box-arrow-down"></i></a>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+
+                            if ($getFilesFolder->num_rows == 0 && $getFiles->num_rows == 0) {
+                            ?>
                                 <tr>
                                     <td colspan="3">
-                                        <center>No Folder Found</center>
+                                        <center>No File Found</center>
                                     </td>
                                 </tr>
                             <?php
