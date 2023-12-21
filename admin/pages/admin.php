@@ -510,7 +510,7 @@ include('../components/header.php');
                         if ($getUsers->num_rows > 0) {
                             while ($user = $getUsers->fetch_assoc()) {
                         ?>
-                                <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=ManageUsers&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['NAME'] ?></a></li>
+                                <li class="list-group-item <?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-li' : '' ?>"><a href="admin.php?page=ManageUsers&user=<?= $user['ID'] ?>" class="<?= (isset($_GET['user']) && $_GET['user'] == $user['ID']) ? 'message-user-active-a' : '' ?>"><?= $user['F_NAME'] . ' ' . $user['MI'] . ' ' . $user['L_NAME'] . ' ' . $user['SUFFIX']  ?></a></li>
                             <?php
                             }
                         } else {
@@ -532,9 +532,23 @@ include('../components/header.php');
                             <form id="frmEditUser">
                                 <input type="hidden" name="submitType" value="EditUser">
                                 <input type="hidden" name="userId" value="<?= $userId ?>">
-                                <div class="mt-5">
-                                    <label for="editName">Name:</label>
-                                    <input type="text" class="form-control" id="editName" name="editName" value="<?= $user['NAME'] ?>">
+                                <div class="mt-5 d-flex">
+                                    <div class="container-fluid p-0">
+                                        <label for="editFName">First Name:</label>
+                                        <input type="text" class="form-control" id="editFName" name="editFName" value="<?= $user['F_NAME'] ?>">
+                                    </div>
+                                    <div class="container-fluid p-0" style="margin-left: 10px;">
+                                        <label for="editLName">Last Name:</label>
+                                        <input type="text" class="form-control" id="editLName" name="editLName" value="<?= $user['L_NAME'] ?>">
+                                    </div>
+                                    <div class="container-fluid p-0" style="margin-left: 10px; width: 100px;">
+                                        <label for="editMI">MI:</label>
+                                        <input type="text" class="form-control" id="editMI" name="editMI" value="<?= $user['MI'] ?>">
+                                    </div>
+                                    <div class="container-fluid p-0" style="margin-left: 10px; width: 150px;">
+                                        <label for="editSuffix">Suffix:</label>
+                                        <input type="text" class="form-control" id="editSuffix" name="editSuffix" value="<?= $user['SUFFIX'] ?>">
+                                    </div>
                                 </div>
 
                                 <div class="mt-3">

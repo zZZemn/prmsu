@@ -64,9 +64,9 @@ class global_class extends db_connect
         }
     }
 
-    public function editUser($userId, $name, $email, $username, $password, $faculty)
+    public function editUser($userId, $fname, $lname, $mi, $suffix, $email, $username, $password, $faculty)
     {
-        $query = $this->conn->prepare("UPDATE `users` SET `NAME`='$name',`EMAIL`='$email',`USERNAME`='$username',`PASSWORD` = '$password',`FACULTY_ID`='$faculty' WHERE `ID` = '$userId'");
+        $query = $this->conn->prepare("UPDATE `users` SET `F_NAME`='$fname',`L_NAME`='$lname',`MI`='$mi',`SUFFIX`='$suffix' ,`EMAIL`='$email',`USERNAME`='$username',`PASSWORD` = '$password',`FACULTY_ID`='$faculty' WHERE `ID` = '$userId'");
         if ($query->execute()) {
             return 200;
         }
@@ -719,14 +719,17 @@ class admin_class extends db_connect
             $checkUserId = $this->getUser($userId);
         } while ($checkUserId->num_rows > 0);
 
-        $name = $post['name'];
+        $fname = $post['fname'];
+        $lname = $post['lname'];
+        $mi = $post['mi'];
+        $suffix = $post['suffix'];
         $facultyId = $post['facultyId'];
         $email = $post['email'];
         $username = $post['username'];
         $password = $post['password'];
 
-        $query = $this->conn->prepare("INSERT INTO `users`(`ID`, `NAME`, `EMAIL`, `USERNAME`, `PASSWORD`, `FACULTY_ID`, `USER_TYPE`, `STATUS`) 
-                                                    VALUES ('$userId','$name','$email','$username','$password','$facultyId','faculty','active')");
+        $query = $this->conn->prepare("INSERT INTO `users`(`ID`, `F_NAME`,`L_NAME`,`MI`,`SUFFIX`,`EMAIL`, `USERNAME`, `PASSWORD`, `FACULTY_ID`, `USER_TYPE`, `STATUS`) 
+                                                    VALUES ('$userId','$fname','$lname','$mi','$suffix','$email','$username','$password','$facultyId','faculty','active')");
         if ($query->execute()) {
             return 200;
         }

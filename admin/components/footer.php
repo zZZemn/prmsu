@@ -321,8 +321,22 @@
                 <input type="hidden" name="submitType" value="AddNewUser">
                 <div class="modal-body">
                     <div>
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form-control" required>
+                        <label for="fname">Name:</label>
+                        <input type="text" id="fname" name="fname" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label for="lname">Last Name:</label>
+                        <input type="text" id="lname" name="lname" class="form-control" required>
+                    </div>
+                    <div class="mt-3 d-flex">
+                        <div class="p-0">
+                            <label for="mi">MI:</label>
+                            <input type="text" id="mi" name="mi" class="form-control" style="width: 80px;">
+                        </div>
+                        <div class="p-0" style="margin-left: 5px;">
+                            <label for="suffix">Suffix:</label>
+                            <input type="text" id="suffix" name="suffix" class="form-control" style="width: 100px;">
+                        </div>
                     </div>
                     <div class="mt-3">
                         <label for="newUserFacultyId">Section</label>
@@ -352,7 +366,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                     <button type="reset" class="btn btn-secondary" id="btnCloseAddNewUserModal" data-dismiss="modal">Close</button>
                 </div>
             </form>

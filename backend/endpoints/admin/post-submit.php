@@ -60,13 +60,16 @@ if (isset($_POST['submitType'])) {
         $senderId = $_POST['senderId'];
         echo $admin_db->sendMessage($senderId, $userId, $message);
     } elseif ($submitType == 'EditUser') {
-        $name = $_POST['editName'];
+        $fname = $_POST['editFName'];
+        $lname = $_POST['editLName'];
+        $mi = $_POST['editMI'];
+        $suffix = $_POST['editSuffix'];
         $email = $_POST['editEmail'];
         $username = $_POST['editUsername'];
         $password = $_POST['editPassword'];
         $faculty = $_POST['editFacultyId'];
         $userId = $_POST['userId'];
-        echo $db->editUser($userId, $name, $email, $username, $password, $faculty);
+        echo $db->editUser($userId, $fname, $lname, $mi, $suffix, $email, $username, $password, $faculty);
     } elseif ($submitType == 'RestoreFile') {
         $fileId = $_POST['fileId'];
         echo $db->restoreFile($fileId);
