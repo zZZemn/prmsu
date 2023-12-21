@@ -713,7 +713,10 @@ class admin_class extends db_connect
         $query = $this->conn->prepare("INSERT INTO `message`(`SENDER_ID`, `RECEIVER_ID`, `MESSAGE`, `DATE_TIME`) VALUES (?, ?, ?, ?)");
         $query->bind_param('ssss', $userId, $adminId, $message, $dateTime);
 
-        if ($query->execute()) {
+        $addNotif = $this->conn->query("UPDATE `users` SET `SENT_INBOX` = `SENT_INBOX` + '1' WHERE `ID` = '$userId'");
+        // $addNotif->bind_param('s', $userId);
+
+        if ($query->execute() && $addNotif->execute()) {
             return 200;
         }
     }
