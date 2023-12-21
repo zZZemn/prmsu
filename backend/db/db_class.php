@@ -64,9 +64,9 @@ class global_class extends db_connect
         }
     }
 
-    public function editUser($userId, $name, $email, $username, $faculty)
+    public function editUser($userId, $name, $email, $username, $password, $faculty)
     {
-        $query = $this->conn->prepare("UPDATE `users` SET `NAME`='$name',`EMAIL`='$email',`USERNAME`='$username',`FACULTY_ID`='$faculty' WHERE `ID` = '$userId'");
+        $query = $this->conn->prepare("UPDATE `users` SET `NAME`='$name',`EMAIL`='$email',`USERNAME`='$username',`PASSWORD` = '$password',`FACULTY_ID`='$faculty' WHERE `ID` = '$userId'");
         if ($query->execute()) {
             return 200;
         }

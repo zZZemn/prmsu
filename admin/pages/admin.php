@@ -546,6 +546,10 @@ include('../components/header.php');
                                     <input type="text" class="form-control" id="editUsername" name="editUsername" value="<?= $user['USERNAME'] ?>">
                                 </div>
                                 <div class="mt-3">
+                                    <label for="editPassword">Password:</label>
+                                    <input type="text" class="form-control" id="editPassword" name="editPassword" value="<?= $user['PASSWORD'] ?>">
+                                </div>
+                                <div class="mt-3">
                                     <label for="editFaculty">Faculty:</label>
                                     <select class="form-control" id="editFacultyId" name="editFacultyId">
                                         <?php

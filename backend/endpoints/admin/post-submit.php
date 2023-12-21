@@ -63,9 +63,10 @@ if (isset($_POST['submitType'])) {
         $name = $_POST['editName'];
         $email = $_POST['editEmail'];
         $username = $_POST['editUsername'];
+        $password = $_POST['editPassword'];
         $faculty = $_POST['editFacultyId'];
         $userId = $_POST['userId'];
-        echo $db->editUser($userId, $name, $email, $username, $faculty);
+        echo $db->editUser($userId, $name, $email, $username, $password, $faculty);
     } elseif ($submitType == 'RestoreFile') {
         $fileId = $_POST['fileId'];
         echo $db->restoreFile($fileId);
