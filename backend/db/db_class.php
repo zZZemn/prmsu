@@ -320,6 +320,12 @@ class global_class extends db_connect
 
         $dateTime = $this->dateTime();
 
+        // $task = $this->checkTask($taskId);
+        // if ($task->num_rows > 0) {
+        //     $taskResult = $task->fetch_assoc();
+        //     $userId = $taskResult['FOR_USER_ID'];
+        // }
+
         do {
             $fileName = 'prmsu_' . $this->generateRandomString(12);
             $checkFileName = $this->checkFileName($fileName);
@@ -341,7 +347,9 @@ class global_class extends db_connect
                         if ($getTask->num_rows > 0) {
                             $task = $getTask->fetch_assoc();
                             $userId = $task['FOR_USER_ID'];
+                            $sentNotif = $this->conn->prepare("UPDATE `users` SET `SENT_NOTIF`= `SENT_NOTIF` + 1 WHERE `ID` = '$userId'");
                             $this->sendMessage($userId, 'ADMIN_1', 'Sent an attachment in tasks.');
+                            $sentNotif->execute();
                         }
                         return 200;
                     }

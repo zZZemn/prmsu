@@ -34,11 +34,11 @@ $(document).ready(function () {
         userId: userId,
       },
       success: function (response) {
-        console.log(response);
+        // console.log(response);
         $("#txtSendMessage").val("");
-        if (response != "200") {
-          alert("alert-danger", "Can't send a message right now.");
-        }
+        // if (response != "200") {
+        //   alert("alert-danger", "Can't send a message right now.");
+        // }
       },
     });
   });
