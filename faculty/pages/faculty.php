@@ -8,6 +8,7 @@ include('../components/header.php');
         <input type="hidden" id="userId" value="<?= $user_id ?>">
         <?php
         if ($_GET['page'] == 'inbox') {
+            $db->readNotif('INBOX', $user_id);
         ?>
             <div class="container message-content-container">
                 <div class="message-content-container-iside container" id="messageContainer">
@@ -450,6 +451,7 @@ include('../components/header.php');
                 backToAdminMain();
             }
         } elseif ($_GET['page'] == 'notification') {
+            $db->readNotif('NOTIF', $user_id);
             ?>
             <div class="tasks-container">
                 <?php

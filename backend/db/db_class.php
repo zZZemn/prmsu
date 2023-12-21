@@ -356,6 +356,15 @@ class global_class extends db_connect
             return 'File is empty';
         }
     }
+
+    // Turn Notif Or Message To 0
+    public function readNotif($column, $userId)
+    {
+        $query = $this->conn->prepare("UPDATE `users` SET `$column`='0' WHERE `ID` = '$userId'");
+        if ($query->execute()) {
+            return 200;
+        }
+    }
 }
 
 
