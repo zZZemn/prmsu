@@ -435,13 +435,216 @@
 </div>
 <!-- End of Add Tasks To All Modal -->
 
-<footer class="footer bg-dark p-3">
-    <center>
-        <!-- <a href="#" class="m-5">Contact</a>
-        <a href="#" class="m-5">Privacy</a>
-        <a href="#" class="m-5">Terms of Use</a> -->
-        <center class="text-light"><i class="bi bi-c-circle"></i> 2023 - PRMSU COE-DMS - All Rights Reserved.</center>
-    </center>
+<!-- User Guide -->
+<div class="modal" tabindex="-1" role="dialog" id="UserGuideModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-info-circle"></i> User Guide</h5>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h6><i>Main Frame:</i></h6>
+                    <div class="container">
+                        <img src="../../assets/userguide/mainframe.png" class="mt-2" style="width: 100%">
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <h6><i>Login Frame:</i></h6>
+                    <div class="container">
+                        <img src="../../assets/userguide/loginframe.png" class="mt-2" style="width: 100%">
+                    </div>
+                    <ul class="mt-2">
+                        <li>
+                            <p class="text-secondary">this is the login frame of this system where the admin/faculty must enter the
+                                required credentials to have access for the admin dashboard.</p>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div>
+                    <h6><i>Admin Dashboard:</i></h6>
+                    <div class="container">
+                        <img src="../../assets/userguide/admindashboard.png" class="mt-2" style="width: 100%">
+                    </div>
+                    <ul>
+                        <li>
+                            <p class="text-secondary">After login, admin is directed to the main dashboard of this system where admin can perform
+                                various operations such as:</p>
+                            <ul>
+                                <li>
+                                    <p class="text-secondary">Chat Functionality: Admin and user chat features are provided for efficient
+                                        communication within the system
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/chatfunctionality.png" class="mt-0" style="width: 100%">
+                                    </div>
+                                </li>
+                                <li class="mt-3">
+                                    <p class="text-secondary">
+                                        Add task: Assign tasks to specific users or distribute tasks to all users when necessary.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/addtask.png" class="m-0" style="width: 100%">
+                                    </div>
+                                </li>
+                                <li class="mt-3">
+                                    <p class="text-secondary">
+                                        Create New Section: Admins can create new sections to organize documents
+                                        effectively. Each section allows for the addition of files and folders to streamline. Also,
+                                        files and folders should adhere to naming conventions and relevant categorization.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/createnewsection.png" class="m-0" style="width: 100%">
+                                    </div>
+                                </li>
+                                <li class="mt-3">
+                                    <p class="text-secondary">
+                                        Manage User: Admins have the authority to manage users, including adding new
+                                        users to the system. It can be assigned specific roles and access levels based on their
+                                        responsibilities. Also, admin can change their credentials, including name, email,
+                                        username, faculty, and password for security and identity management.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/manageuser.png" class="m-0" style="width: 100%">
+                                    </div>
+                                </li>
+                                <li class="mt-3">
+                                    <p class="text-secondary">
+                                        Recycle Bin: When a file is deleted, it will directly go to the recycle bin, where it can
+                                        be retrieved.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/recyclebin.png" class="m-0" style="width: 100%">
+                                    </div>
+                                </li>
+                                <li class="mt-3">
+                                    <p class="text-secondary">
+                                        Logout Button: This button terminates the current session, returning the user to the
+                                        main login frame.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/logoutadmin.png " class="m-0" style="width: 100%">
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div>
+                    <h6><i>Faculty Dashboard:</i></h6>
+                    <div class="container">
+                        <img src="../../assets/userguide/facultydashboard.png" class="mt-2" style="width: 100%">
+                    </div>
+                    <ul>
+                        <li>
+                            <p class="text-secondary">Upon successful login, faculty users are directed to the dashboard, which presents the following
+                                functional components:</p>
+                            <ul>
+                                <li>
+                                    <p class="text-secondary">Inbox: This section facilitates seamless communication between faculty and
+                                        administrators. Users can compose, send, receive, and manage messages within this
+                                        centralized interface.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/facultyinbox.png" class="mt-0" style="width: 100%">
+                                    </div>
+                                </li>
+
+                                <hr>
+
+                                <li>
+                                    <p class="text-secondary"> Folder: This component allows users to create, organize, and manage files and folders.
+                                        It has the following buttons for essential actions, including:
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/addnewfolderfac.png" class="mt-0" style="width: 100%">
+                                    </div>
+                                    <ul class="mt-3">
+                                        <li>
+                                            <p class="text-secondary">Renaming files and folders</p>
+                                            <div class="container">
+                                                <img src="../../assets/userguide/facrenamefolder.png" class="mt-0" style="width: 100%">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p class="text-secondary">Downloading files for offline access</p>
+                                        </li>
+                                        <li>
+                                            <p class="text-secondary">Deleting files and folders (with the option to recover them from the Recycle
+                                                Bin)</p>
+                                            <div class="container">
+                                                <img src="../../assets/userguide/facdeletefile.png" class="mt-0" style="width: 100%">
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <hr>
+
+                                <li>
+                                    <p class="text-secondary"> Notifications: This area alerts users of tasks assigned by the administrator ensuring
+                                        timely awareness of important actions. users can send attachments as response.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/facnotif.png" class="mt-0" style="width: 100%">
+                                    </div>
+                                </li>
+
+                                <hr>
+
+                                <li>
+                                    <p class="text-secondary"> Recycle Bin: This safety net safeguards against accidental data loss. Users can restore
+                                        deleted files and folders from this section, preventing permanent deletion.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/facrecylclebin.png" class="mt-0" style="width: 100%">
+                                    </div>
+                                </li>
+
+                                <hr>
+
+                                <li>
+                                    <p class="text-secondary"> Manage Account: This tab allows users control over their personal information and
+                                        account settings. It enables them to
+                                    <ul>
+                                        <li>View and update their profile details.</li>
+                                        <li>Modify their password for enhanced security.</li>
+                                    </ul>
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/facmanageaccount.png" class="mt-0" style="width: 100%">
+                                    </div>
+                                </li>
+
+                                <hr>
+
+                                <li>
+                                    <p class="text-secondary"> Logout Button: This button terminates the current session, returning the user to the
+                                        main login frame.
+                                    </p>
+                                    <div class="container">
+                                        <img src="../../assets/userguide/faclogout.png" class="mt-0" style="width: 100%">
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" id="btnCloseUserGuideModal" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of User Guide -->
+
+<footer class="footer bg-dark p-3 d-flex justify-content-between align-items-center">
+    <p class="text-light m-0"><i class="bi bi-c-circle"></i> 2023 - PRMSU COE-DMS - All Rights Reserved.</p>
+    <button id="showUserGuide" class="btn text-light"><i class="bi bi-info-circle"></i> User Guide</button>
 </footer>
 
 <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -740,4 +740,15 @@ $(document).ready(function () {
       },
     });
   });
+
+  $("#showUserGuide").click(function (e) {
+    e.preventDefault();
+    console.log("clicked");
+    $("#UserGuideModal").modal("show");
+  });
+
+  $("#btnCloseUserGuideModal").click(function (e) {
+    e.preventDefault();
+    closeModal("UserGuideModal");
+  });
 });
